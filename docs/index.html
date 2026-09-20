@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="color-scheme" content="only light">
+<meta name="darkreader-lock">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>GALAXY-AGENT: The AI Agent for Bioinformatics</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/reveal.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+
+<style>
+  /* ============================================================
+     HIGH-CONTRAST LIGHT TOKENS
+     White surfaces + dark text remain readable when browser themes
+     force a light canvas. Gold = human/decision; teal = tool/output.
+     All text pairs meet WCAG AA (normal text >= 4.5:1).
+     ============================================================ */
+  :root {
+    color-scheme: only light;
+    --r-background-color: #ffffff;
+    --r-main-color: #17181a;
+    --ink: #ffffff;
+    --ink-panel: #eef1f4;
+    --ink-line: #5f6368;
+    --paper: #17181a;
+    --paper-dim: #55524c;
+    --gold: #7a4d00;
+    --gold-dim: #7a4d00;
+    --teal: #205e54;
+    --teal-dim: #205e54;
+    --font-display: 'IBM Plex Mono', ui-monospace, 'SFMono-Regular', Consolas, monospace;
+    --font-body: 'IBM Plex Sans', system-ui, -apple-system, sans-serif;
+    --radius: 4px;
+  }
+
+  ::selection {
+    background: #205e54;
+    color: #ffffff;
+  }
+  ::-moz-selection {
+    background: #205e54;
+    color: #ffffff;
+  }
+
+  html { color-scheme: only light; background: #ffffff !important; }
+  html, body, .reveal-viewport, .reveal, .reveal .slides,
+  .reveal .slides section, .reveal .backgrounds, .reveal .slide-background,
+  .reveal .slide-background-content {
+    background: #ffffff !important;
+    background-color: #ffffff !important;
+  }
+  html, body { min-width: 100%; min-height: 100%; margin: 0; }
+  .reveal { font-family: var(--font-body); color: #17181a !important; }
+  @media (forced-colors: active) {
+    html, body, .reveal-viewport, .reveal, .reveal .slides,
+    .reveal .slides section, .reveal .backgrounds, .reveal .slide-background,
+    .reveal .slide-background-content {
+      forced-color-adjust: none;
+      background: #ffffff !important;
+      color: #17181a !important;
+    }
+  }
+  .reveal .slides { text-align: left; }
+
+  /* -- typography & text elements -- */
+  .reveal h1, .reveal h2, .reveal h3, .reveal h4 {
+    font-family: var(--font-display);
+    color: #17181a !important;
+    letter-spacing: -0.02em;
+    text-transform: none;
+  }
+  .reveal h1 { font-size: clamp(1.8rem, 4.2vw, 2.75rem); font-weight: 700; line-height: 1.15; margin-bottom: 0.4em; }
+  .reveal h2 { font-size: clamp(1.4rem, 3.2vw, 2rem); font-weight: 600; line-height: 1.25; margin-bottom: 0.5em; }
+  .reveal h3 { font-size: clamp(1.1rem, 2.3vw, 1.45rem); font-weight: 600; line-height: 1.3; color: var(--gold) !important; }
+  .reveal h4 { font-size: 1.05rem; font-weight: 600; color: #17181a !important; margin-bottom: 0.3em; }
+  .reveal p, .reveal li { font-size: clamp(0.95rem, 1.9vw, 1.2rem); line-height: 1.55; color: #17181a; }
+  .reveal strong { font-weight: 600; color: #17181a; }
+  .reveal em { font-style: italic; color: #55524c; }
+  .reveal a { color: var(--teal) !important; text-decoration: underline; text-underline-offset: 3px; }
+
+  /* -- title slide -- */
+  .reveal .slides section.title-slide {
+    display: flex !important; flex-direction: column; justify-content: center;
+    align-items: flex-start; text-align: left; height: 100%;
+  }
+  .title-slide h1 {
+    font-size: clamp(2rem, 4.8vw, 3.2rem); font-weight: 700;
+    line-height: 1.15; margin: 0.15em 0 0.35em 0; color: #17181a !important;
+  }
+  .title-slide h3 {
+    font-size: clamp(1.1rem, 2.5vw, 1.6rem); font-weight: 500;
+    color: var(--gold) !important; margin: 0 0 0.6em 0;
+  }
+  .title-slide .kicker {
+    font-family: var(--font-display); font-size: 0.85rem; font-weight: 600;
+    letter-spacing: 0.14em; text-transform: uppercase; color: var(--teal) !important; margin: 0 0 0.5em 0;
+  }
+  .title-slide .subtitle {
+    font-size: clamp(1.05rem, 2.2vw, 1.35rem); color: #17181a; margin: 0 0 0.4em 0;
+  }
+  .title-slide .byline {
+    font-family: var(--font-display); font-size: 0.9rem; color: #55524c !important; margin-top: 1.2em;
+  }
+  .title-slide .badge-cli {
+    display: inline-block;
+    background-color: var(--gold);
+    color: #ffffff !important;
+    font-family: var(--font-display);
+    font-size: 0.88rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    padding: 6px 14px;
+    border-radius: 0;
+    line-height: 1.4;
+    text-align: center;
+  }
+  .title-slide .cursor {
+    display: inline-block; width: 0.55em; height: 1em; background-color: var(--gold);
+    margin-left: 0.1em; vertical-align: -0.1em; animation: blink 1s steps(2, start) infinite;
+  }
+  @keyframes blink { to { visibility: hidden; } }
+
+  /* -- hero layout on title slide (premium landing page) -- */
+  .title-slide .hero-title {
+    font-size: clamp(2.4rem, 5.2vw, 3.5rem); font-weight: 700;
+    line-height: 1.15; letter-spacing: -0.02em; margin: 0.1em 0 0.45em 0;
+    color: #17181a !important;
+  }
+  .title-slide .hero-subtitle {
+    display: block; font-size: clamp(1.2rem, 2.6vw, 1.65rem);
+    font-weight: 500; letter-spacing: -0.01em; color: #374151;
+    margin-top: 0.35em;
+  }
+  .title-slide .hero-pillars {
+    font-size: clamp(1rem, 2.2vw, 1.35rem); font-weight: 500;
+    letter-spacing: 0.05em; color: var(--gold) !important;
+    margin: 0.7em 0 0.8em 0;
+  }
+  .title-slide .hero-desc {
+    font-family: var(--font-body); font-size: clamp(1.05rem, 2.1vw, 1.28rem);
+    color: #4b5563; max-width: 680px; margin: 0 auto; line-height: 1.55;
+  }
+
+  /* -- center-aligned slides -- */
+  .reveal .slides section.center-aligned,
+  .reveal .slides section.title-slide.center-aligned {
+    align-items: center !important;
+    text-align: center !important;
+  }
+  .reveal .slides section.center-aligned h1,
+  .reveal .slides section.center-aligned h2,
+  .reveal .slides section.center-aligned h3,
+  .reveal .slides section.center-aligned p,
+  .reveal .slides section.center-aligned .subtitle,
+  .reveal .slides section.center-aligned .byline,
+  .reveal .slides section.center-aligned .badge-cli {
+    text-align: center !important;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* -- content wrapper -- */
+  .content-wrap { max-width: 980px; margin: 0 auto; width: 100%; }
+
+  /* -- bullets: dash marker, generous spacing, legible hierarchy -- */
+  .reveal ul { list-style: none; padding-left: 0; margin: 0.8em 0; }
+  .reveal ul li { position: relative; padding-left: 1.4em; margin-bottom: 0.65em; }
+  .reveal ul li::before { content: "—"; position: absolute; left: 0; color: #7a4d00 !important; font-weight: 600; }
+  .reveal ul ul { margin-top: 0.4em; }
+
+  /* -- numbered lists -- */
+  .reveal ol { padding-left: 1.4em; margin: 0.8em 0; }
+  .reveal ol li { margin-bottom: 0.55em; line-height: 1.5; }
+  .reveal ol li strong { color: #17181a; }
+
+  /* -- two-column layout & visual affordances -- */
+  .columns { display: grid; grid-template-columns: 1fr 1fr; gap: 1.8rem; margin-top: 1rem; }
+  .columns .column { padding: 1.3rem 1.4rem; border-radius: var(--radius); }
+  .columns .column ul { margin: 0; }
+  .columns .column ul li { font-size: 0.95rem; line-height: 1.5; margin-bottom: 0.7em; }
+
+  /* Friction Column (Bad / Friction) */
+  .columns .column.friction-col {
+    background: #fffafa;
+    border: 1px solid #fed7d7;
+    border-left: 4px solid #e53e3e;
+  }
+  .columns .column.friction-col .badge {
+    display: inline-flex; align-items: center; gap: 0.35rem;
+    font-family: var(--font-display); font-size: 0.72rem; font-weight: 700;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    color: #9b2c2c; background: #fff5f5; border: 1px solid #feb2b2;
+    padding: 2px 7px; border-radius: 3px; margin-bottom: 0.9em;
+  }
+  .columns .column.friction-col ul li::before {
+    content: "✕"; color: #e53e3e !important; font-weight: 700; font-size: 0.85em;
+  }
+  .text-bad {
+    color: #c53030; font-weight: 600; background: #fed7d740; padding: 0 3px; border-radius: 2px;
+  }
+
+  /* Solution Column (Better / Galaxy Solution) */
+  .columns .column.solution-col {
+    background: #f7faf9;
+    border: 1px solid #b2f5ea;
+    border-left: 4px solid #205e54;
+  }
+  .columns .column.solution-col .badge {
+    display: inline-flex; align-items: center; gap: 0.35rem;
+    font-family: var(--font-display); font-size: 0.72rem; font-weight: 700;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    color: #205e54; background: #e6fffa; border: 1px solid #b2f5ea;
+    padding: 2px 7px; border-radius: 3px; margin-bottom: 0.9em;
+  }
+  .columns .column.solution-col ul li::before {
+    content: "✓"; color: #205e54 !important; font-weight: 700; font-size: 0.95em;
+  }
+  .text-good {
+    color: #205e54; font-weight: 600; background: #b2f5ea40; padding: 0 3px; border-radius: 2px;
+  }
+
+  /* -- clean plus list -- */
+  .clean-plus-list { list-style: none; padding-left: 0; margin: 1.4rem 0 1.2rem 0; }
+  .clean-plus-list li {
+    font-size: clamp(1.1rem, 2.2vw, 1.4rem); line-height: 1.6; margin-bottom: 0.45em;
+    position: relative; padding-left: 1.6em;
+  }
+  .clean-plus-list li::before {
+    content: "+"; position: absolute; left: 0; color: var(--teal) !important;
+    font-family: var(--font-display); font-weight: 700; font-size: 1.15em;
+  }
+
+  /* -- core features grid (Slide 7) -- */
+  .feature-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.2rem;
+    width: 100%;
+    margin: 1.6rem 0 1.4rem 0;
+    box-sizing: border-box;
+  }
+  .feature-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-top: 3px solid var(--teal);
+    border-radius: var(--radius);
+    padding: 1.2rem 1.1rem;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+    box-sizing: border-box;
+    transition: transform 160ms ease-out, box-shadow 160ms ease-out, border-color 160ms ease-out;
+  }
+  .feature-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(32, 94, 84, 0.08);
+    border-color: #b2f5ea;
+  }
+  .feature-card .feature-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-family: var(--font-display);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #205e54;
+    background: #e6fffa;
+    border: 1px solid #b2f5ea;
+    padding: 2px 7px;
+    border-radius: 3px;
+    margin-bottom: 0.85rem;
+  }
+  .feature-card .feature-title {
+    font-family: var(--font-body);
+    font-size: clamp(1rem, 2vw, 1.18rem);
+    font-weight: 500;
+    line-height: 1.45;
+    color: #17181a;
+  }
+
+  /* -- callouts / blockquotes -- */
+  .reveal blockquote {
+    font-family: var(--font-body); font-style: italic; text-align: left;
+    font-size: clamp(1.05rem, 2vw, 1.25rem); color: #17181a !important;
+    border-left: 3px solid var(--gold); padding-left: 1.1em; margin: 1rem 0; width: 100%;
+  }
+
+  /* -- chrome -- */
+  .reveal .progress { color: var(--gold); height: 3px; }
+  .reveal .controls { color: var(--teal); }
+  .reveal .slide-number { font-family: var(--font-display); color: #55524c !important; background: transparent; }
+</style>
+</head>
+<body>
+<div class="reveal">
+  <div class="slides">
+
+    <!-- ============ SLIDE 1: Title & Positioning ============ -->
+    <section class="title-slide center-aligned">
+      <h1 class="hero-title">
+        GALAXY-AGENT
+        <span class="hero-subtitle">The AI Agent for Bioinformatics<span class="cursor"></span></span>
+      </h1>
+      <h3 class="hero-pillars">Zero-Setup · Terminal-Native · AI-Powered</h3>
+      <p class="hero-desc">
+        Run high-throughput genomic pipelines directly from your terminal.
+      </p>
+      <aside class="notes">
+Good morning / afternoon everyone. Today we are presenting GALAXY-AGENT: The AI Agent for Bioinformatics.
+Bioinformatics today is crippled by complexity. Biologists have incredible data, but turning that data into scientific insight requires navigating complex pipelines and massive compute stacks.
+Galaxy-Agent is the next-generation bioinformatics CLI: zero-setup, completely terminal-native, and AI-powered, allowing researchers to orchestrate high-throughput genomic pipelines right from their command line.
+      </aside>
+    </section>
+
+    <!-- ============ SLIDE 2: The Problem (Physical Friction with Visual Affordances) ============ -->
+    <section>
+      <div class="content-wrap">
+        <p class="title-slide kicker" style="margin-bottom: 0.2em;">THE PROBLEM</p>
+        <h2>Great Biology Is Limited by Computational Friction.</h2>
+        <div class="columns">
+          <div class="column friction-col">
+            <div class="badge">✕ The Friction</div>
+            <ul>
+              <li>You want to do something, your laptop is <span class="text-bad">not powerful enough...</span></li>
+              <li>You want to download something, your internet is <span class="text-bad">not fast enough...</span></li>
+              <li>You want to learn something, but you <span class="text-bad">can't paste it into ChatGPT</span> because it's a 100GB file on some server...</li>
+            </ul>
+          </div>
+          <div class="column solution-col">
+            <div class="badge">✓ The Smarter Way</div>
+            <ul>
+              <li>You don't HAVE TO run everything on your laptop, do it on your <span class="text-good">free Galaxy instance</span>.</li>
+              <li>You don't HAVE TO download it to your laptop via slow internet, <span class="text-good">go straight from a server</span> to your free Galaxy instance.</li>
+              <li>You don't HAVE TO upload the whole file to ChatGPT, let it <span class="text-good">smartly figure out</span> what's what via tools like head, tail, grep.</li>
+            </ul>
+          </div>
+        </div>
+        <p style="margin-top: 1.2rem; font-size: 0.95rem; font-style: italic; color: var(--paper-dim);">
+          You can always fallback to your laptop if needed. You can always do things the old way, download them, inspect them whatever.
+        </p>
+      </div>
+      <aside class="notes">
+Great biology is constantly limited by everyday computational friction.
+On one hand: you want to run an analysis, your laptop isn't strong enough. You want to download a dataset, your internet isn't fast enough. You want AI assistance, but you can't paste a 100GB server file into ChatGPT.
+On the other hand: you don't HAVE to run everything on your laptop—you have free Galaxy compute instances. You don't HAVE to download it locally—data can move server-to-server. And you don't HAVE to upload 100GB to ChatGPT—our agent inspects slices via smart tools like head, tail, and grep.
+And whenever you want, you can still fall back to your laptop and do things the traditional way.
+      </aside>
+    </section>
+
+    <!-- ============ SLIDE 3: The Big Data & Agent Reality ============ -->
+    <section>
+      <div class="content-wrap">
+        <h2>The Computational Reality of Bioinformatics</h2>
+        <ul>
+          <li><strong>Bioinfo is a big data science:</strong> That means FILES ARE BIG!! 10GB–100GB+; not everyone can download them to a local laptop or paste them into ChatGPT.</li>
+          <li><strong>HPC Access is limited:</strong> You may not have access to the HPC cluster, or you may not have the necessary permissions to run your workflow.</li>
+          <li><strong>There are A LOT OF TOOLS:</strong> Galaxy hosts 3,890+ tools. Injecting raw schemas blows past 100k–500k tokens... NVM you don't have to worry about all that, let us worry about it.</li>
+          <li><strong>Generalist Agents Lack Biological Semantics:</strong> They don't understand paired-end strandedness, chromosome contig formats, etc. They were not built for this, you have to do a lot of setup, and you have to be tech-savvy to cut and hack together a working agent for your experience. Well, you don't have to Frankenstein things together anymore, ours just works out of the box.</li>
+        </ul>
+      </div>
+      <aside class="notes">
+Bioinformatics is big data science. That means files are BIG—10 to 100 gigabytes plus. Most people can't download them locally or paste them into ChatGPT.
+HPC clusters sound great in theory, but in reality access is often blocked or restricted.
+And then there are the tools: Galaxy hosts over 3,890 tools. Trying to feed raw schemas into an LLM blows past 100k to 500k tokens. But you don't need to worry about that—we handle that under the hood.
+Finally, generalist agents like ChatGPT or raw Claude lack biological semantics. They don't understand paired-end strandedness or chromosome contigs. Today, making an agent work means you have to be a tech hacker Frankenstein-ing custom scripts together.
+With Galaxy-Agent, you don't have to do that anymore. It works right out of the box.
+      </aside>
+    </section>
+
+    <!-- ============ SLIDE 4: The Solution ============ -->
+    <section>
+      <div class="content-wrap">
+        <p class="title-slide kicker" style="margin-bottom: 0.2em;">THE SOLUTION</p>
+        <h2>INTRODUCING GALAXY-AGENT</h2>
+        <p style="margin-bottom: 0.8em; font-size: 1.05rem; color: var(--paper-dim); line-height: 1.5;">
+          An autonomous, terminal-native AI agent to deliver bioinformatics pipelines directly from the command line.<br>
+          Offload the heavy work to Galaxy.
+        </p>
+        <ul>
+          <li><strong>No technical setup:</strong> Just works out of the box. We remove all the friction with MCP configuration, custom API glue, and complex environments.</li>
+          <li><strong>A custom harness built for bioinformatics workflows:</strong> Mainstream generalist tools don't have what biology needs. We give you a dedicated interface with a live Galaxy history panel, dataset peeker, job inspector, and inline ASCII plots.</li>
+          <li><strong>Terminal-native experience:</strong> Fast, keyboard-first, and fits right into the terminal shell where bioinformatics work actually happens.</li>
+          <li><strong>Human-in-the-loop control:</strong> You inspect parameters and confirm pipeline steps before jobs dispatch or compute quotas get used.</li>
+        </ul>
+      </div>
+      <aside class="notes">
+So what are we building?
+We are building galaxy-agent: an autonomous, terminal-native AI orchestrator that consumes Galaxy 26.1's native MCP primitives to deliver full pipelines directly from your command line.
+First: zero technical setup. It works out of the box—no MCP server configuration or DIY glue code.
+Second: a custom harness built specifically for bioinformatics. Generalist AI tools have no idea what a Galaxy history or genomic dataset is. We built a dedicated interface with live history panels, dataset peekers, and terminal plots.
+Third: it's terminal-native, keyboard-first, and keeps you in full control with human-in-the-loop confirmation before any cloud compute runs.
+      </aside>
+    </section>
+
+    <!-- ============ SLIDE 5: How It Works ============ -->
+    <section>
+      <div class="content-wrap">
+        <h2>How It Works</h2>
+        <p style="margin-bottom: 0.8em; font-size: 1.05rem;">
+          <strong>Galaxy-agent does exactly what you do: real analyses, start to finish.</strong><br>
+          <em>Ask in plain language; route the heavy steps to Galaxy.</em>
+        </p>
+        <ol>
+          <li><strong>Creates History:</strong> Agent comes in, creates a history on Galaxy (you name it).</li>
+          <li><strong>Smart Ingestion:</strong> It uploads your files from disk, or via links and servers intelligently.</li>
+          <li><strong>Discovers &amp; Plans:</strong> It asks what you are doing, discovers tools on Galaxy, and tells you the plan (e.g., running FASTQC with these parameters).</li>
+          <li><strong>HITL Approval:</strong> You approve it, and it goes ahead and does the thing.</li>
+          <li><strong>Flexible Results:</strong> Results come back—you can click the link to see them ON GALAXY SERVER, or ask it to download them locally and inspect via local tools.</li>
+          <li><strong>Dedicated Modes:</strong> You have access to local tools and bash commands all the way via dedicated bash mode (<code>$</code>) versus normal chat mode (<code>&gt;</code>).</li>
+        </ol>
+      </div>
+      <aside class="notes">
+Here is how it actually works in practice:
+You launch galaxy-agent in your terminal. It connects to Galaxy and creates a dedicated history—you name it whatever you like.
+Next, ingestion: it uploads your files from local disk, or pulls them intelligently straight from remote servers or links.
+It asks what you want to achieve, dynamically discovers the necessary tools on Galaxy, and lays out the exact execution plan—for example, running FastQC with specific adapter settings.
+You approve it, and it executes the job on Galaxy compute.
+When results finish, you have complete flexibility: click the link to inspect them directly on the Galaxy server, or ask the agent to download them locally to run local analysis.
+And throughout the entire session, you can switch seamlessly between normal chat mode and dedicated bash mode to run local terminal commands anytime.
+      </aside>
+    </section>
+
+    <!-- ============ SLIDE 6: The Competition ============ -->
+    <section>
+      <div class="content-wrap">
+        <h2>galaxy-agent vs Galaxy Loom</h2>
+        <p style="margin-bottom: 0.8em; font-size: 1.02rem; color: var(--paper-dim);">
+          Galaxy Loom was the first major project to adopt galaxy-mcp, we will be the second.<br>
+          The goal is to be better than the competition or be acquired/merged with them.
+        </p>
+        <ul>
+          <li><strong>Zero-Setup vs Node Stack:</strong> Loom requires Node &ge;22, npm, and manual config. Galaxy-agent requires NONE. We aim to provide a plug-and-play experience, something that just works out of the box.</li>
+          <li><strong>Hard Runtime Gate:</strong> Loom's own documentation notes approvals are soft model guidance. Galaxy-agent works on a strict human in the loop approach. We enforce a hard runtime gate—unapproved jobs cannot run by design.</li>
+          <li><strong>Quota Management:</strong> Loom has no storage management. Galaxy-agent actively monitors Galaxy's 250GB quota so your pipelines don't crash from full disks.</li>
+        </ul>
+      </div>
+      <aside class="notes">
+When looking at the competitive landscape:
+Galaxy Loom was the first major project to adopt galaxy-mcp, and we will be the second. Our goal is simple: be better than the competition, or be acquired and merged with them.
+Here are the core differences:
+Loom requires Node 22, npm, and manual config—galaxy-agent is a single standalone CLI that works out of the box.
+Loom admits in its own pitch that approvals are soft prompt guidance—galaxy-agent enforces a hard runtime gate where unapproved jobs physically cannot dispatch.
+And while Loom has no storage management, galaxy-agent actively monitors Galaxy's 250GB quota to keep your runs from crashing.
+      </aside>
+    </section>
+
+    <!-- ============ SLIDE 7: The Solution & Core Features ============ -->
+    <section class="title-slide">
+      <h1>Agentic Bioinformatics<br>Done <span style="text-decoration: line-through; color: var(--paper-dim); font-weight: 500;">Right</span> <span style="color: var(--teal); font-weight: 700;">Better</span></h1>
+      
+      <div class="feature-grid">
+        <div class="feature-card">
+          <div class="feature-badge">✓ ZERO SETUP</div>
+          <div class="feature-title">Zero MCP JSON Configuration</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-badge">✓ FULL CATALOG</div>
+          <div class="feature-title">Unlock All 3,890+ Galaxy Tools on Demand</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-badge">✓ SAFETY GATE</div>
+          <div class="feature-title">Human-in-the-Loop Safety Gating</div>
+        </div>
+      </div>
+
+      <p style="margin-top: 1.2rem; font-size: clamp(1.1rem, 2.2vw, 1.35rem); color: var(--paper-dim); font-family: var(--font-display);">
+        Offload the heavy work to galaxy, focus on the science.
+      </p>
+
+      <aside class="notes">
+To wrap up:
+Galaxy-agent requires zero MCP JSON configuration, unlocks all 3,890+ Galaxy tools on demand with instant speed, and gives researchers bulletproof human-in-the-loop safety before running costly cluster jobs.
+Offload the heavy work to Galaxy, and focus on the science.
+      </aside>
+    </section>
+
+    <!-- ============ SLIDE 8: Thank You ============ -->
+    <section class="title-slide center-aligned">
+      <h1>Thank You<span class="cursor"></span></h1>
+      <aside class="notes">
+Thank you very much for your time! We're happy to answer any questions.
+      </aside>
+    </section>
+
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/reveal.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/plugin/notes/notes.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/plugin/highlight/highlight.min.js"></script>
+<script>
+  const deck = new Reveal({
+    hash: true,
+    center: true,
+    slideNumber: 'c/t',
+    progress: true,
+    controls: false,
+    transition: 'fade',
+    plugins: [ RevealNotes, RevealHighlight ]
+  });
+
+  deck.initialize();
+</script>
+</body>
+</html>
