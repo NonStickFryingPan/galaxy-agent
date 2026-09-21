@@ -50,22 +50,71 @@
     color: #ffffff;
   }
 
-  html { color-scheme: only light; background: #ffffff !important; }
-  html, body, .reveal-viewport, .reveal, .reveal .slides,
-  .reveal .slides section, .reveal .backgrounds, .reveal .slide-background,
+  html { color-scheme: only light; background-color: #ffffff !important; }
+  html, body, .reveal-viewport, .reveal,
+  .reveal .backgrounds, .reveal .slide-background,
   .reveal .slide-background-content {
-    background: #ffffff !important;
     background-color: #ffffff !important;
+  }
+  .reveal .slides,
+  .reveal .slides section {
+    background: transparent !important;
+    background-color: transparent !important;
+  }
+  .reveal .slide-background-content {
+    background-position: center center;
+    background-repeat: no-repeat;
   }
   html, body { min-width: 100%; min-height: 100%; margin: 0; }
   .reveal { font-family: var(--font-body); color: #17181a !important; }
   @media (forced-colors: active) {
-    html, body, .reveal-viewport, .reveal, .reveal .slides,
-    .reveal .slides section, .reveal .backgrounds, .reveal .slide-background,
+    html, body, .reveal-viewport, .reveal,
+    .reveal .backgrounds, .reveal .slide-background,
     .reveal .slide-background-content {
       forced-color-adjust: none;
-      background: #ffffff !important;
+      background-color: #ffffff !important;
       color: #17181a !important;
+    }
+    .reveal .slides,
+    .reveal .slides section {
+      background: transparent !important;
+      background-color: transparent !important;
+    }
+  }
+
+  /* -- Full-bleed Meet Bob slide -- */
+  .reveal .slides section.bob-slide {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    background: transparent !important;
+    background-color: transparent !important;
+  }
+  .reveal .slides section.bob-slide .bob-img {
+    position: absolute !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    width: 1245px !important;
+    height: 700px !important;
+    max-width: none !important;
+    max-height: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+    box-shadow: none !important;
+    background: transparent !important;
+    object-fit: contain !important;
+    display: block !important;
+  }
+  @media (max-width: 960px) {
+    .reveal .slides section.bob-slide .bob-img {
+      width: 100% !important;
+      height: auto !important;
     }
   }
   .reveal .slides { text-align: left; }
@@ -604,7 +653,15 @@ Galaxy-Agent is the next-generation bioinformatics CLI: zero-setup, completely t
       </aside>
     </section>
 
-    <!-- ============ SLIDE 2: The Problem (Physical Friction with Visual Affordances) ============ -->
+    <!-- ============ SLIDE 2: Meet Bob ============ -->
+    <section class="bob-slide">
+      <img src="bob.png" alt="Meet Bob" class="bob-img">
+      <aside class="notes">
+Meet Bob. Bob is living the reality of computational biology today: waiting hours for his tools to finish, downloading multi-gigabyte reference genomes overnight from FTP servers, and fighting out-of-memory errors on his laptop because the dataset won't fit into RAM.
+      </aside>
+    </section>
+
+    <!-- ============ SLIDE 3: The Problem (Physical Friction with Visual Affordances) ============ -->
     <section>
       <div class="content-wrap">
         <p class="title-slide kicker" style="margin-bottom: 0.2em;">THE PROBLEM</p>
