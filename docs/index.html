@@ -7,7 +7,7 @@
 <meta name="darkreader-lock">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<title>GALAXY-AGENT: The AI Agent for Bioinformatics</title>
+<title>gx-: Heavy Bioinformatics on Everyday Hardware</title>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/reveal.min.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -16,39 +16,24 @@
 
 <style>
   /* ============================================================
-     HIGH-CONTRAST LIGHT TOKENS
-     White surfaces + dark text remain readable when browser themes
-     force a light canvas. Gold = human/decision; teal = tool/output.
-     All text pairs meet WCAG AA (normal text >= 4.5:1).
+     HIGH-CONTRAST LIGHT THEME (Minimalist, Uncluttered, Digestible)
      ============================================================ */
   :root {
     color-scheme: only light;
     --r-background-color: #ffffff;
     --r-main-color: #17181a;
     --ink: #ffffff;
-    --ink-panel: #eef1f4;
-    --ink-line: #5f6368;
+    --ink-panel: #f8fafc;
     --paper: #17181a;
-    --paper-dim: #55524c;
-    --gold: #7a4d00;
-    --gold-dim: #7a4d00;
-    --teal: #205e54;
-    --teal-dim: #205e54;
-    --font-display: 'IBM Plex Mono', ui-monospace, 'SFMono-Regular', Consolas, monospace;
+    --paper-dim: #64748b;
+    --gold: #854d0e;
+    --teal: #0f766e;
+    --font-display: 'IBM Plex Mono', ui-monospace, Consolas, monospace;
     --font-body: 'IBM Plex Sans', system-ui, -apple-system, sans-serif;
-    --radius: 4px;
-    --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
-    --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+    --radius: 6px;
   }
 
-  ::selection {
-    background: #205e54;
-    color: #ffffff;
-  }
-  ::-moz-selection {
-    background: #205e54;
-    color: #ffffff;
-  }
+  ::selection { background: #0f766e; color: #ffffff; }
 
   html { color-scheme: only light; background-color: #ffffff !important; }
   html, body, .reveal-viewport, .reveal,
@@ -61,28 +46,10 @@
     background: transparent !important;
     background-color: transparent !important;
   }
-  .reveal .slide-background-content {
-    background-position: center center;
-    background-repeat: no-repeat;
-  }
   html, body { min-width: 100%; min-height: 100%; margin: 0; }
-  .reveal { font-family: var(--font-body); color: #17181a !important; }
-  @media (forced-colors: active) {
-    html, body, .reveal-viewport, .reveal,
-    .reveal .backgrounds, .reveal .slide-background,
-    .reveal .slide-background-content {
-      forced-color-adjust: none;
-      background-color: #ffffff !important;
-      color: #17181a !important;
-    }
-    .reveal .slides,
-    .reveal .slides section {
-      background: transparent !important;
-      background-color: transparent !important;
-    }
-  }
+  .reveal { font-family: var(--font-body); color: #17181a !important; font-size: 26px; }
 
-  /* -- Full-bleed Meet Bob slide -- */
+  /* -- Full-bleed Bob slide -- */
   .reveal .slides section.bob-slide {
     position: absolute !important;
     top: 0 !important;
@@ -92,7 +59,6 @@
     padding: 0 !important;
     margin: 0 !important;
     background: transparent !important;
-    background-color: transparent !important;
   }
   .reveal .slides section.bob-slide .bob-img {
     position: absolute !important;
@@ -103,11 +69,6 @@
     height: 700px !important;
     max-width: none !important;
     max-height: none !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    border: none !important;
-    box-shadow: none !important;
-    background: transparent !important;
     object-fit: contain !important;
     display: block !important;
   }
@@ -120,536 +81,181 @@
   .reveal .slides { text-align: left; }
 
   /* -- typography & text elements -- */
-  .reveal h1, .reveal h2, .reveal h3, .reveal h4 {
+  .reveal h1, .reveal h2, .reveal h3 {
     font-family: var(--font-display);
     color: #17181a !important;
-    letter-spacing: -0.02em;
+    letter-spacing: -0.025em;
     text-transform: none;
   }
-  .reveal h1 { font-size: clamp(1.8rem, 4.2vw, 2.75rem); font-weight: 700; line-height: 1.15; margin-bottom: 0.4em; }
-  .reveal h2 { font-size: clamp(1.4rem, 3.2vw, 2rem); font-weight: 600; line-height: 1.25; margin-bottom: 0.5em; }
-  .reveal h3 { font-size: clamp(1.1rem, 2.3vw, 1.45rem); font-weight: 600; line-height: 1.3; color: var(--gold) !important; }
-  .reveal h4 { font-size: 1.05rem; font-weight: 600; color: #17181a !important; margin-bottom: 0.3em; }
-  .reveal p, .reveal li { font-size: clamp(0.95rem, 1.9vw, 1.2rem); line-height: 1.55; color: #17181a; }
-  .reveal strong { font-weight: 600; color: #17181a; }
-  .reveal em { font-style: italic; color: #55524c; }
-  .reveal a { color: var(--teal) !important; text-decoration: underline; text-underline-offset: 3px; }
+  .reveal h1 { font-size: clamp(2.4rem, 5.5vw, 3.8rem); font-weight: 700; line-height: 1.1; margin-bottom: 0.3em; }
+  .reveal h2 { font-size: clamp(1.75rem, 3.8vw, 2.5rem); font-weight: 700; line-height: 1.2; margin-bottom: 0.35em; }
+  .reveal h3 { font-size: clamp(1.2rem, 2.6vw, 1.7rem); font-weight: 600; line-height: 1.3; color: var(--gold) !important; }
 
-  /* -- title slide -- */
-  .reveal .slides section.title-slide {
-    display: flex !important; flex-direction: column; justify-content: center;
-    align-items: flex-start; text-align: left; height: 100%;
+  .reveal p, .reveal li {
+    font-size: clamp(1.1rem, 2.1vw, 1.4rem);
+    line-height: 1.55;
+    color: #1e293b;
   }
-  .title-slide h1 {
-    font-size: clamp(2rem, 4.8vw, 3.2rem); font-weight: 700;
-    line-height: 1.15; margin: 0.15em 0 0.35em 0; color: #17181a !important;
+  .reveal strong { font-weight: 600; color: #0f172a; }
+
+  /* -- layout containers -- */
+  .content-wrap {
+    max-width: 940px;
+    margin: 0 auto;
+    width: 100%;
+    padding: 0 1rem;
+    box-sizing: border-box;
+    position: relative;
   }
-  .title-slide h3 {
-    font-size: clamp(1.1rem, 2.5vw, 1.6rem); font-weight: 500;
-    color: var(--gold) !important; margin: 0 0 0.6em 0;
-  }
-  .title-slide .kicker {
-    font-family: var(--font-display); font-size: 0.85rem; font-weight: 600;
-    letter-spacing: 0.14em; text-transform: uppercase; color: var(--teal) !important; margin: 0 0 0.5em 0;
-  }
-  .title-slide .subtitle {
-    font-size: clamp(1.05rem, 2.2vw, 1.35rem); color: #17181a; margin: 0 0 0.4em 0;
-  }
-  .title-slide .byline {
-    font-family: var(--font-display); font-size: 0.9rem; color: #55524c !important; margin-top: 1.2em;
-  }
-  .title-slide .badge-cli {
-    display: inline-block;
-    background-color: var(--gold);
-    color: #ffffff !important;
+
+  .kicker {
     font-family: var(--font-display);
-    font-size: 0.88rem;
-    font-weight: 600;
-    letter-spacing: 0.04em;
-    padding: 6px 14px;
-    border-radius: 0;
-    line-height: 1.4;
-    text-align: center;
+    font-size: clamp(0.78rem, 1.4vw, 0.92rem);
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--teal) !important;
+    margin-bottom: 0.5em;
   }
-  .title-slide .cursor {
+
+  .subhead {
+    font-size: clamp(1.1rem, 2.1vw, 1.38rem);
+    color: #475569;
+    margin-bottom: 1.1rem;
+    line-height: 1.5;
+  }
+
+  /* -- single punchy lists -- */
+  .clean-list {
+    list-style: none;
+    padding-left: 0;
+    margin: 1.1rem 0;
+  }
+  .clean-list li {
+    position: relative;
+    padding-left: 1.8rem;
+    margin-bottom: 0.85rem;
+    font-size: clamp(1.1rem, 2.1vw, 1.4rem);
+    line-height: 1.55;
+  }
+  .clean-list li::before {
+    content: "—";
+    position: absolute;
+    left: 0;
+    color: var(--teal) !important;
+    font-weight: 700;
+  }
+
+  /* -- big stats -- */
+  .big-stat {
+    font-family: var(--font-display);
+    font-size: clamp(2.4rem, 5.8vw, 4.2rem);
+    font-weight: 700;
+    color: var(--teal);
+    line-height: 1.05;
+    margin: 0.2em 0 0.1em 0;
+  }
+  .big-stat-bad {
+    color: #dc2626;
+  }
+
+  /* -- clean cards with ample breathing room -- */
+  .card-box {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: var(--radius);
+    padding: 1.4rem 1.6rem;
+    margin: 1.1rem 0;
+    box-sizing: border-box;
+  }
+  .card-box-danger {
+    background: #fffafa;
+    border-left: 5px solid #dc2626;
+    border-color: #fee2e2 #fee2e2 #fee2e2 #dc2626;
+  }
+  .card-box-success {
+    background: #f0fdfa;
+    border-left: 5px solid var(--teal);
+    border-color: #ccfbf1 #ccfbf1 #ccfbf1 var(--teal);
+  }
+
+  /* -- terminal card -- */
+  .terminal-card {
+    background: #0f172a;
+    border-radius: 8px;
+    padding: 1.3rem 1.5rem;
+    font-family: var(--font-display);
+    color: #f8fafc;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    border: 1px solid #1e293b;
+    margin: 1.1rem 0;
+  }
+  .terminal-nav {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    margin-bottom: 0.8rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #1e293b;
+  }
+  .terminal-dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+  .dot-red { background: #ef4444; }
+  .dot-yellow { background: #f59e0b; }
+  .dot-green { background: #10b981; }
+  .terminal-label {
+    font-size: 0.76rem;
+    color: #94a3b8;
+    letter-spacing: 0.08em;
+    margin-left: 6px;
+    text-transform: uppercase;
+  }
+
+  /* -- bottom-left source citation -- */
+  .source-citation {
+    font-family: var(--font-display);
+    font-size: clamp(0.68rem, 1.25vw, 0.8rem);
+    color: #64748b;
+    margin-top: 1.8rem;
+    padding-top: 0.6rem;
+    border-top: 1px dashed #cbd5e1;
+    line-height: 1.4;
+  }
+  .source-citation strong {
+    color: #475569;
+    font-weight: 700;
+  }
+
+  .cursor {
     display: inline-block; width: 0.55em; height: 1em; background-color: var(--gold);
     margin-left: 0.1em; vertical-align: -0.1em; animation: blink 1s steps(2, start) infinite;
   }
   @keyframes blink { to { visibility: hidden; } }
 
-  /* -- hero layout on title slide (premium landing page) -- */
-  .title-slide .hero-title {
-    font-size: clamp(2.4rem, 5.2vw, 3.5rem); font-weight: 700;
-    line-height: 1.15; letter-spacing: -0.02em; margin: 0.1em 0 0.45em 0;
-    color: #17181a !important;
-  }
-  .title-slide .hero-subtitle {
-    display: block; font-size: clamp(1.2rem, 2.6vw, 1.65rem);
-    font-weight: 500; letter-spacing: -0.01em; color: #374151;
-    margin-top: 0.35em;
-  }
-  .title-slide .hero-pillars {
-    font-size: clamp(1rem, 2.2vw, 1.35rem); font-weight: 500;
-    letter-spacing: 0.05em; color: var(--gold) !important;
-    margin: 0.7em 0 0.8em 0;
-  }
-  .title-slide .hero-desc {
-    font-family: var(--font-body); font-size: clamp(1.05rem, 2.1vw, 1.28rem);
-    color: #4b5563; max-width: 680px; margin: 0 auto; line-height: 1.55;
-  }
-
-  /* -- center-aligned slides -- */
-  .reveal .slides section.center-aligned,
-  .reveal .slides section.title-slide.center-aligned {
-    align-items: center !important;
-    text-align: center !important;
-  }
-  .reveal .slides section.center-aligned h1,
-  .reveal .slides section.center-aligned h2,
-  .reveal .slides section.center-aligned h3,
-  .reveal .slides section.center-aligned p,
-  .reveal .slides section.center-aligned .subtitle,
-  .reveal .slides section.center-aligned .byline,
-  .reveal .slides section.center-aligned .badge-cli {
-    text-align: center !important;
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  /* -- content wrapper -- */
-  .content-wrap { max-width: 980px; margin: 0 auto; width: 100%; }
-
-  /* -- bullets: dash marker, generous spacing, legible hierarchy -- */
-  .reveal ul { list-style: none; padding-left: 0; margin: 0.8em 0; }
-  .reveal ul li { position: relative; padding-left: 1.4em; margin-bottom: 0.65em; }
-  .reveal ul li::before { content: "—"; position: absolute; left: 0; color: #7a4d00 !important; font-weight: 600; }
-  .reveal ul ul { margin-top: 0.4em; }
-
-  /* -- numbered lists -- */
-  .reveal ol { padding-left: 1.4em; margin: 0.8em 0; }
-  .reveal ol li { margin-bottom: 0.55em; line-height: 1.5; }
-  .reveal ol li strong { color: #17181a; }
-
-  /* -- two-column layout & visual affordances -- */
-  .columns { display: grid; grid-template-columns: 1fr 1fr; gap: 1.8rem; margin-top: 1rem; }
-  .columns .column { padding: 1.3rem 1.4rem; border-radius: var(--radius); }
-  .columns .column ul { margin: 0; }
-  .columns .column ul li { font-size: 0.95rem; line-height: 1.5; margin-bottom: 0.7em; }
-
-  /* Friction Column (Bad / Friction) */
-  .columns .column.friction-col {
-    background: #fffafa;
-    border: 1px solid #fed7d7;
-    border-left: 4px solid #e53e3e;
-  }
-  .columns .column.friction-col .badge {
-    display: inline-flex; align-items: center; gap: 0.35rem;
-    font-family: var(--font-display); font-size: 0.72rem; font-weight: 700;
-    letter-spacing: 0.08em; text-transform: uppercase;
-    color: #9b2c2c; background: #fff5f5; border: 1px solid #feb2b2;
-    padding: 2px 7px; border-radius: 3px; margin-bottom: 0.9em;
-  }
-  .columns .column.friction-col ul li::before {
-    content: "✕"; color: #e53e3e !important; font-weight: 700; font-size: 0.85em;
-  }
-  .text-bad {
-    color: #c53030; font-weight: 600; background: #fed7d740; padding: 0 3px; border-radius: 2px;
-  }
-
-  /* Solution Column (Better / Galaxy Solution) */
-  .columns .column.solution-col {
-    background: #f7faf9;
-    border: 1px solid #b2f5ea;
-    border-left: 4px solid #205e54;
-  }
-  .columns .column.solution-col .badge {
-    display: inline-flex; align-items: center; gap: 0.35rem;
-    font-family: var(--font-display); font-size: 0.72rem; font-weight: 700;
-    letter-spacing: 0.08em; text-transform: uppercase;
-    color: #205e54; background: #e6fffa; border: 1px solid #b2f5ea;
-    padding: 2px 7px; border-radius: 3px; margin-bottom: 0.9em;
-  }
-  .columns .column.solution-col ul li::before {
-    content: "✓"; color: #205e54 !important; font-weight: 700; font-size: 0.95em;
-  }
-  .text-good {
-    color: #205e54; font-weight: 600; background: #b2f5ea40; padding: 0 3px; border-radius: 2px;
-  }
-
-  /* -- clean plus list -- */
-  .clean-plus-list { list-style: none; padding-left: 0; margin: 1.4rem 0 1.2rem 0; }
-  .clean-plus-list li {
-    font-size: clamp(1.1rem, 2.2vw, 1.4rem); line-height: 1.6; margin-bottom: 0.45em;
-    position: relative; padding-left: 1.6em;
-  }
-  .clean-plus-list li::before {
-    content: "+"; position: absolute; left: 0; color: var(--teal) !important;
-    font-family: var(--font-display); font-weight: 700; font-size: 1.15em;
-  }
-
-  /* -- core features grid (Slide 7) -- */
-  .feature-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1.2rem;
-    width: 100%;
-    margin: 1.6rem 0 1.4rem 0;
-    box-sizing: border-box;
-  }
-  .feature-card {
-    background: #ffffff;
-    border: 1px solid #e2e8f0;
-    border-top: 3px solid var(--teal);
-    border-radius: var(--radius);
-    padding: 1.2rem 1.1rem;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.03);
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    text-align: left;
-    box-sizing: border-box;
-    transition: transform 160ms ease-out, box-shadow 160ms ease-out, border-color 160ms ease-out;
-  }
-  .feature-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(32, 94, 84, 0.08);
-    border-color: #b2f5ea;
-  }
-  .feature-card .feature-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.35rem;
-    font-family: var(--font-display);
-    font-size: 0.72rem;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: #205e54;
-    background: #e6fffa;
-    border: 1px solid #b2f5ea;
-    padding: 2px 7px;
-    border-radius: 3px;
-    margin-bottom: 0.85rem;
-  }
-  .feature-card .feature-title {
-    font-family: var(--font-body);
-    font-size: clamp(1rem, 2vw, 1.18rem);
-    font-weight: 500;
-    line-height: 1.45;
-    color: #17181a;
-  }
-
-  /* -- callouts / blockquotes -- */
-  .reveal blockquote {
-    font-family: var(--font-body); font-style: italic; text-align: left;
-    font-size: clamp(1.05rem, 2vw, 1.25rem); color: #17181a !important;
-    border-left: 3px solid var(--gold); padding-left: 1.1em; margin: 1rem 0; width: 100%;
-  }
-
-  /* -- chrome -- */
-  .reveal .progress { color: var(--gold); height: 3px; }
+  .center-text { text-align: center; }
+  .reveal .slide-number { font-family: var(--font-display); color: #94a3b8 !important; background: transparent; }
+  .reveal .progress { color: var(--teal); height: 3px; }
   .reveal .controls { color: var(--teal); }
-  .reveal .slide-number { font-family: var(--font-display); color: #55524c !important; background: transparent; }
-
-  /* ============================================================
-     HOW IT WORKS - ABSTRACT SEQUENTIAL PIPELINE (Slide 5)
-     Emil Kowalski design engineering principles:
-     - Pure craft: no clunky box borders or heavy card containers
-     - Strictly sequential: left-to-right conduit flow
-     - Hardware-accelerated: animate ONLY transform and opacity (GPU)
-     - Custom easing curves: cubic-bezier(0.77, 0, 0.175, 1) & (0.23, 1, 0.32, 1)
-     - No scale(0) entrances; start from scale(0.95)
-     ============================================================ */
-  .abstract-pipeline-stage {
-    width: 100%;
-    max-width: 920px;
-    margin: 2rem auto 0 auto;
-    padding: 2.2rem 1.8rem;
-    background: #fafbfc;
-    border: 1px solid #e2e8f0;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
-    box-sizing: border-box;
-    position: relative;
-  }
-  .abstract-pipeline-grid {
-    display: grid;
-    grid-template-columns: minmax(72px, auto) 1fr minmax(72px, auto) 1fr minmax(72px, auto) 1fr minmax(72px, auto);
-    grid-template-rows: auto 32px auto;
-    align-items: center;
-    justify-items: center;
-    max-width: 880px;
-    margin: 0 auto;
-    row-gap: 0.65rem;
-  }
-
-  /* Grid Column & Row assignments */
-  .pipe-col-1 { grid-column: 1; }
-  .pipe-col-2 { grid-column: 2; }
-  .pipe-col-3 { grid-column: 3; }
-  .pipe-col-4 { grid-column: 4; }
-  .pipe-col-5 { grid-column: 5; }
-  .pipe-col-6 { grid-column: 6; }
-  .pipe-col-7 { grid-column: 7; }
-
-  .pipe-row-1 { grid-row: 1; }
-  .pipe-row-2 { grid-row: 2; }
-  .pipe-row-3 { grid-row: 3; }
-
-  /* Step Typography */
-  .pipeline-step-num {
-    font-family: var(--font-display);
-    font-size: 0.76rem;
-    font-weight: 700;
-    letter-spacing: 0.14em;
-    color: var(--paper-dim);
-    line-height: 1;
-    opacity: 0.45;
-  }
-  .pipeline-step-title {
-    font-family: var(--font-display);
-    font-size: clamp(1.15rem, 2.2vw, 1.45rem);
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    color: #17181a;
-    line-height: 1.2;
-    opacity: 0.45;
-  }
-
-  /* Step Waypoint Node (Halo + Core) */
-  .pipeline-step-node {
-    width: 32px;
-    height: 32px;
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .node-halo {
-    position: absolute;
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    opacity: 0;
-    transform: scale(0.95);
-    pointer-events: none;
-  }
-  .node-halo.halo-teal {
-    border: 1.5px solid var(--teal);
-    background: radial-gradient(circle, rgba(32, 94, 84, 0.22) 0%, transparent 70%);
-  }
-  .node-halo.halo-gold {
-    border: 1.5px solid var(--gold);
-    background: radial-gradient(circle, rgba(122, 77, 0, 0.22) 0%, transparent 70%);
-  }
-  .node-core {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    transform: scale(0.95);
-    opacity: 0.35;
-    background: #cbd5e1;
-  }
-
-  /* Sequential Conduit Connector */
-  .pipeline-conduit {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    padding: 0 0.7rem;
-    box-sizing: border-box;
-  }
-  .conduit-track {
-    flex: 1;
-    height: 2px;
-    background: #cbd5e1;
-    position: relative;
-    overflow: hidden;
-    border-radius: 1px;
-  }
-  .conduit-pulse {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent 0%, var(--teal) 50%, var(--gold) 90%, transparent 100%);
-    transform: translateX(-100%);
-    opacity: 0;
-  }
-  .conduit-arrow {
-    font-family: var(--font-display);
-    font-size: 1.25rem;
-    font-weight: 700;
-    color: #cbd5e1;
-    margin-left: 0.45rem;
-    line-height: 1;
-    user-select: none;
-    opacity: 0.3;
-    transform: translateX(0);
-  }
-
-  /* Keyframe Animations (GPU: transform & opacity only) */
-  @keyframes seq-step-text {
-    0% { transform: translateY(0); opacity: 0.45; }
-    8%, 20% { transform: translateY(-2px); opacity: 1; }
-    30%, 100% { transform: translateY(0); opacity: 0.45; }
-  }
-
-  @keyframes seq-halo-pulse {
-    0% { transform: scale(0.95); opacity: 0; }
-    8%, 20% { transform: scale(1.35); opacity: 0.85; }
-    30%, 100% { transform: scale(0.95); opacity: 0; }
-  }
-
-  @keyframes seq-core-pulse-teal {
-    0% { transform: scale(0.95); opacity: 0.35; background: #cbd5e1; box-shadow: none; }
-    8%, 20% { transform: scale(1.3); opacity: 1; background: var(--teal); box-shadow: 0 0 12px rgba(32, 94, 84, 0.5); }
-    30%, 100% { transform: scale(0.95); opacity: 0.35; background: #cbd5e1; box-shadow: none; }
-  }
-
-  @keyframes seq-core-pulse-gold {
-    0% { transform: scale(0.95); opacity: 0.35; background: #cbd5e1; box-shadow: none; }
-    8%, 20% { transform: scale(1.3); opacity: 1; background: var(--gold); box-shadow: 0 0 12px rgba(122, 77, 0, 0.5); }
-    30%, 100% { transform: scale(0.95); opacity: 0.35; background: #cbd5e1; box-shadow: none; }
-  }
-
-  @keyframes seq-conduit-pulse {
-    0%, 14% { transform: translateX(-100%); opacity: 0; }
-    18% { opacity: 1; }
-    28% { transform: translateX(100%); opacity: 0.9; }
-    32%, 100% { transform: translateX(100%); opacity: 0; }
-  }
-
-  @keyframes seq-conduit-arrow {
-    0%, 20% { transform: translateX(0); opacity: 0.3; color: #cbd5e1; }
-    26%, 32% { transform: translateX(2px); opacity: 1; color: var(--teal); }
-    40%, 100% { transform: translateX(0); opacity: 0.3; color: #cbd5e1; }
-  }
-
-  /* Staggered Delay Bindings (4.4s loop, 1.1s stage increments) */
-  .anim-step-1 { animation: seq-step-text 4.4s var(--ease-in-out) infinite; animation-delay: 0s; }
-  .anim-halo-1 { animation: seq-halo-pulse 4.4s var(--ease-in-out) infinite; animation-delay: 0s; }
-  .anim-core-1 { animation: seq-core-pulse-teal 4.4s var(--ease-in-out) infinite; animation-delay: 0s; }
-
-  .anim-pulse-1 { animation: seq-conduit-pulse 4.4s var(--ease-in-out) infinite; animation-delay: 0.35s; }
-  .anim-arrow-1 { animation: seq-conduit-arrow 4.4s var(--ease-in-out) infinite; animation-delay: 0.35s; }
-
-  .anim-step-2 { animation: seq-step-text 4.4s var(--ease-in-out) infinite; animation-delay: 1.1s; }
-  .anim-halo-2 { animation: seq-halo-pulse 4.4s var(--ease-in-out) infinite; animation-delay: 1.1s; }
-  .anim-core-2 { animation: seq-core-pulse-teal 4.4s var(--ease-in-out) infinite; animation-delay: 1.1s; }
-
-  .anim-pulse-2 { animation: seq-conduit-pulse 4.4s var(--ease-in-out) infinite; animation-delay: 1.45s; }
-  .anim-arrow-2 { animation: seq-conduit-arrow 4.4s var(--ease-in-out) infinite; animation-delay: 1.45s; }
-
-  .anim-step-3 { animation: seq-step-text 4.4s var(--ease-in-out) infinite; animation-delay: 2.2s; }
-  .anim-halo-3 { animation: seq-halo-pulse 4.4s var(--ease-in-out) infinite; animation-delay: 2.2s; }
-  .anim-core-3 { animation: seq-core-pulse-gold 4.4s var(--ease-in-out) infinite; animation-delay: 2.2s; }
-
-  .anim-pulse-3 { animation: seq-conduit-pulse 4.4s var(--ease-in-out) infinite; animation-delay: 2.55s; }
-  .anim-arrow-3 { animation: seq-conduit-arrow 4.4s var(--ease-in-out) infinite; animation-delay: 2.55s; }
-
-  .anim-step-4 { animation: seq-step-text 4.4s var(--ease-in-out) infinite; animation-delay: 3.3s; }
-  .anim-halo-4 { animation: seq-halo-pulse 4.4s var(--ease-in-out) infinite; animation-delay: 3.3s; }
-  .anim-core-4 { animation: seq-core-pulse-teal 4.4s var(--ease-in-out) infinite; animation-delay: 3.3s; }
-
-  @media (prefers-reduced-motion: reduce) {
-    .abstract-pipeline-grid * {
-      animation: none !important;
-      transform: none !important;
-      opacity: 1 !important;
-    }
-  }
-
-  @keyframes stream-shimmer {
-    0% { background-position: -200% 0; }
-    100% { background-position: 200% 0; }
-  }
-
-  @keyframes live-pulse {
-    0% { transform: scale(0.9); box-shadow: 0 0 0 0 rgba(32, 94, 84, 0.7); }
-    70% { transform: scale(1.15); box-shadow: 0 0 0 10px rgba(32, 94, 84, 0); }
-    100% { transform: scale(0.9); box-shadow: 0 0 0 0 rgba(32, 94, 84, 0); }
-  }
-
-  @keyframes scanline-glow {
-    0% { transform: translateY(-100%); opacity: 0; }
-    30% { opacity: 0.5; }
-    70% { opacity: 0.5; }
-    100% { transform: translateY(220%); opacity: 0; }
-  }
-
-  @keyframes hitl-cycle {
-    0%, 40% {
-      border-color: #fbd38d;
-      background: #fffdfa;
-    }
-    50%, 100% {
-      border-color: #b2f5ea;
-      background: #f7faf9;
-    }
-  }
-
-  @keyframes pulse-card-a {
-    0%, 45% { border-color: var(--teal); box-shadow: 0 4px 16px rgba(32, 94, 84, 0.14); transform: translateY(-2px); }
-    55%, 100% { border-color: #e2e8f0; box-shadow: none; transform: translateY(0); }
-  }
-
-  @keyframes pulse-card-b {
-    0%, 45% { border-color: #e2e8f0; box-shadow: none; transform: translateY(0); }
-    55%, 100% { border-color: var(--gold); box-shadow: 0 4px 16px rgba(122, 77, 0, 0.14); transform: translateY(-2px); }
-  }
-
-  .terminal-card {
-    background: #17181a;
-    border-radius: 6px;
-    padding: 1.1rem 1.3rem;
-    font-family: var(--font-display);
-    color: #e2e8f0;
-    box-shadow: 0 4px 16px rgba(0,0,0,0.12);
-    border: 1px solid #2d3748;
-    position: relative;
-    overflow: hidden;
-  }
-  .terminal-nav {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    margin-bottom: 0.8rem;
-    padding-bottom: 0.5rem;
-    border-bottom: 1px solid #2d3748;
-  }
-  .terminal-dot { width: 9px; height: 9px; border-radius: 50%; display: inline-block; }
-  .dot-red { background: #ef4444; }
-  .dot-yellow { background: #f59e0b; }
-  .dot-green { background: #10b981; }
-  .terminal-label {
-    font-size: 0.72rem;
-    color: #94a3b8;
-    letter-spacing: 0.06em;
-    margin-left: 6px;
-    text-transform: uppercase;
-  }
 </style>
 </head>
 <body>
 <div class="reveal">
   <div class="slides">
 
-    <!-- ============ SLIDE 1: Title & Positioning ============ -->
-    <section class="title-slide center-aligned">
-      <h1 class="hero-title">
-        GALAXY-AGENT
-        <span class="hero-subtitle">The AI Agent for Bioinformatics<span class="cursor"></span></span>
-      </h1>
-      <h3 class="hero-pillars">Zero-Setup · Terminal-Native · AI-Powered</h3>
-      <p class="hero-desc">
-        Run high-throughput genomic pipelines directly from your terminal.
-      </p>
+    <!-- ============ SLIDE 1: Title ============ -->
+    <section class="center-text">
+      <div class="content-wrap" style="text-align: center;">
+        <h1 style="font-size: clamp(3.6rem, 8vw, 5.8rem); margin-bottom: 0.25em;">gx-<span class="cursor"></span></h1>
+        <p class="subhead" style="font-size: clamp(1.3rem, 2.8vw, 1.8rem); font-weight: 500; color: #1e293b; margin-bottom: 0.8em;">
+          SOTA Biology on everyday laptops.
+        </p>
+        <p style="font-size: clamp(1rem, 2vw, 1.25rem); color: var(--paper-dim); margin-top: 1.2rem;">
+          Zero downloads · Zero crashes · Free cloud supercomputing
+        </p>
+      </div>
       <aside class="notes">
-Good morning / afternoon everyone. Today we are presenting GALAXY-AGENT: The AI Agent for Bioinformatics.
-Bioinformatics today is crippled by complexity. Biologists have incredible data, but turning that data into scientific insight requires navigating complex pipelines and massive compute stacks.
-Galaxy-Agent is the next-generation bioinformatics CLI: zero-setup, completely terminal-native, and AI-powered, allowing researchers to orchestrate high-throughput genomic pipelines right from their command line.
+Good morning everyone. Today we are presenting gx: running heavy bioinformatics on everyday student laptops.
+Bioinformatics today has a massive computing problem.
+We are solving that problem by making free cloud supercomputers accessible through your normal command line.
       </aside>
     </section>
 
@@ -657,577 +263,373 @@ Galaxy-Agent is the next-generation bioinformatics CLI: zero-setup, completely t
     <section class="bob-slide">
       <img src="bob.png" alt="Meet Bob" class="bob-img">
       <aside class="notes">
-Meet Bob. Bob is living the reality of computational biology today: waiting hours for his tools to finish, downloading multi-gigabyte reference genomes overnight from FTP servers, and fighting out-of-memory errors on his laptop because the dataset won't fit into RAM.
+Meet Bob. Bob is a typical bioinformatics student.
+He needs to run a standard gene alignment on human sequencing data.
+Look at Bob. He has been waiting for hours.
+His laptop screen is frozen, his battery is draining, and his project is stuck.
       </aside>
     </section>
 
-    <!-- ============ SLIDE 3: The Problem (Physical Friction with Visual Affordances) ============ -->
+    <!-- ============ SLIDE 3: Big Data Sciences ============ -->
     <section>
       <div class="content-wrap">
-        <p class="title-slide kicker" style="margin-bottom: 0.2em;">THE PROBLEM</p>
-        <h2>Biology Is Limited by Computational Friction.</h2>
-        <div class="columns">
-          <div class="column friction-col">
-            <div class="badge">✕ The Friction</div>
-            <ul>
-              <li>You want to do something, your laptop is <span class="text-bad">not powerful enough...</span></li>
-              <li>You want to download something, your internet is <span class="text-bad">not fast enough...</span></li>
-              <li>You want to learn something, but you <span class="text-bad">can't paste it into ChatGPT</span> because it's a 100GB file on some server...</li>
-            </ul>
-          </div>
-          <div class="column solution-col">
-            <div class="badge">✓ The Smarter Way</div>
-            <ul>
-              <li>You don't HAVE TO run everything on your laptop, do it on your <span class="text-good">free Galaxy instance</span>.</li>
-              <li>You don't HAVE TO download it to your laptop via slow internet, <span class="text-good">go straight from a server</span> to your free Galaxy instance.</li>
-              <li>You don't HAVE TO upload the whole file to ChatGPT, let it <span class="text-good">smartly figure out</span> what's what via tools like head, tail, grep.</li>
-            </ul>
-          </div>
-        </div>
-        <p style="margin-top: 1.2rem; font-size: 0.95rem; font-style: italic; color: var(--paper-dim);">
-          You can always fallback to your laptop if needed. You can always do things the old way, download them, inspect them whatever.
-        </p>
-      </div>
-      <aside class="notes">
-Great biology is constantly limited by everyday computational friction.
-On one hand: you want to run an analysis, your laptop isn't strong enough. You want to download a dataset, your internet isn't fast enough. You want AI assistance, but you can't paste a 100GB server file into ChatGPT.
-On the other hand: you don't HAVE to run everything on your laptop—you have free Galaxy compute instances. You don't HAVE to download it locally—data can move server-to-server. And you don't HAVE to upload 100GB to ChatGPT—our agent inspects slices via smart tools like head, tail, and grep.
-And whenever you want, you can still fall back to your laptop and do things the traditional way.
-      </aside>
-    </section>
+        <p class="kicker">THE BIG DATA SCIENCES</p>
+        <h2>Biology is a Big Data Science.</h2>
+        <p class="subhead">In modern research, three fields generate data at a massive scale:</p>
 
-    <!-- ============ SLIDE 3: The Big Data & Agent Reality ============ -->
-    <section>
-      <div class="content-wrap">
-        <h2>The Computational Reality of Bioinformatics</h2>
-        <ul>
-          <li><strong>Bioinformatics is a big data science:</strong> That means files are BIG (10GB–100GB+); not everyone can download them to a local laptop or paste them into ChatGPT.</li>
-          <li><strong>HPC access is limited:</strong> You may not have access to an HPC cluster, or you may not have the necessary permissions to run your workflow.</li>
-          <li><strong>There are a lot of tools:</strong> Galaxy hosts 3000+ tools.</li>
-          <li><strong>Generalist agents lack biological semantics:</strong> They don't understand paired-end strandedness, chromosome contig formats, and domain nuances. They were not built for this, requiring extensive technical setup and hacking to make an agent work.</li>
-          <li>You have to Frankenstein things together to get them to work for your workflow.</li>
-        </ul>
-      </div>
-      <aside class="notes">
-Bioinformatics is a big data science. That means files are big—10 to 100 gigabytes plus. Most people can't download them locally or paste them into ChatGPT.
-HPC clusters sound great in theory, but in reality access is often blocked or restricted.
-And then there are the tools: Galaxy hosts over 3000+ tools.
-Finally, generalist agents like ChatGPT or raw Claude lack biological semantics. They don't understand paired-end strandedness or chromosome contigs. Today, making an agent work means hacking custom scripts together.
-With Galaxy-Agent, you don't have to Frankenstein things together anymore—it works right out of the box.
-      </aside>
-    </section>
-
-    <!-- ============ SLIDE 4: The Solution ============ -->
-    <section>
-      <div class="content-wrap">
-        <p class="title-slide kicker" style="margin-bottom: 0.2em;">THE SOLUTION</p>
-        <h2>INTRODUCING GALAXY-AGENT</h2>
-        <p style="margin-bottom: 0.8em; font-size: 1.05rem; color: var(--paper-dim); line-height: 1.5;">
-          An autonomous, terminal-native AI agent to deliver bioinformatics pipelines directly from the command line.<br>
-          Offload the heavy work to Galaxy.
-        </p>
-        <ul>
-          <li><strong>No technical setup:</strong> Just works out of the box.</li>
-          <li><strong>A custom harness built for bioinformatics workflows:</strong> Mainstream generalist tools don't have what biology needs. We give you a dedicated interface with a live Galaxy history panel, dataset peeker, job inspector, and inline ASCII plots.</li>
-          <li><strong>Terminal-native experience:</strong> Fast, keyboard-first, and fits right into the terminal.</li>
-          <li><strong>Human-in-the-loop control:</strong> You inspect parameters and confirm pipeline steps before jobs dispatch or compute quotas get used.</li>
+        <ul class="clean-list">
+          <li><strong>Astronomy</strong> — Sky surveys &amp; telescope arrays</li>
+          <li><strong>High-Energy Physics</strong> — Particle colliders (CERN / LHC)</li>
+          <li><strong>Genomics (Bioinformatics)</strong> — DNA &amp; RNA sequencing</li>
         </ul>
 
-        <div style="margin-top: 1.1rem; background: #17181a; border-radius: var(--radius); padding: 0.8rem 1.1rem; font-family: var(--font-display); font-size: clamp(0.85rem, 1.6vw, 0.98rem); color: #b2f5ea; display: flex; align-items: center; gap: 0.65rem; border: 1px solid #374151;">
-          <span style="color: var(--gold); user-select: none; font-weight: 700;">$</span>
-          <span>galaxy-agent -p <span style="color: #ffffff;">"Launch my QC pipeline on the data in this directory"</span></span>
+        <p style="margin-top: 1.3rem; font-size: 1.15rem; color: #1e293b;">
+          Genomics data generation is projected to reach <strong>2 to 40 Exabytes per year</strong>—rivaling or outpacing YouTube and Astronomy.
+        </p>
+
+        <div class="source-citation">
+          <strong>Source:</strong> Stephens et al., <em>"Big Data: Astronomical or Genomical?"</em>, PLOS Biology, 13(7): e1002195 (2015). DOI: 10.1371/journal.pbio.1002195
         </div>
       </div>
       <aside class="notes">
-So what are we building?
-We are building galaxy-agent: an autonomous, terminal-native AI orchestrator that consumes Galaxy's native MCP primitives to deliver full pipelines directly from your command line.
-First: zero technical setup. It works out of the box.
-Second: a custom harness built specifically for bioinformatics workflows.
-Third: it's terminal-native, keyboard-first, and keeps you in full control with human-in-the-loop confirmation before any compute runs.
+Every major computational field has a data titan. In science, there are three: Astronomy, High-Energy Physics, and Genomics.
+A landmark 2015 PLOS Biology study showed that genomics data generation is exploding, projected to reach between 2 and 40 exabytes annually—surpassing astronomy and high-energy physics. Modern biology is a massive big data science.
       </aside>
     </section>
 
-    <!-- ============ SLIDE 5: How It Works (Overview) ============ -->
+    <!-- ============ SLIDE 4: Eras of Sequencing ============ -->
     <section>
       <div class="content-wrap">
-        <p class="title-slide kicker" style="margin-bottom: 0.2em;">WORKFLOW OVERVIEW</p>
-        <h2>How It Works</h2>
-        <p style="margin-bottom: 1rem; font-size: 1.08rem;">
-          <strong>Galaxy-agent does exactly what you do: real analyses, start to finish.</strong><br>
-          <span style="color: var(--paper-dim);">Ask in plain language; route the heavy steps to Galaxy.</span>
+        <p class="kicker">PARADIGM SHIFTS</p>
+        <h2>Every field has its eras.</h2>
+        <p class="subhead">Just like physics evolved from Classical Mechanics &rarr; Electromagnetism &rarr; Quantum, sequencing evolved in three generations:</p>
+
+        <ul class="clean-list">
+          <li><strong>1st Gen (Sanger, 1970s–90s):</strong> Kilobases to Megabytes</li>
+          <li><strong>2nd Gen (Short-Read / NGS, 2000s–10s):</strong> Gigabytes (~60–100 GB per human genome)</li>
+          <li><strong>3rd Gen (Long-Read / ONT &amp; PacBio, Present):</strong> <strong>100 GB to 1.5 TB+</strong> per run</li>
+        </ul>
+
+        <p style="margin-top: 1.3rem; font-size: 1.15rem; font-weight: 600; color: #0f766e;">
+          We generate 3rd generation terabyte data, but students are stuck on 16 GB laptops.
         </p>
 
-        <!-- Abstract Sequential Pipeline Stage -->
-        <div class="abstract-pipeline-stage">
-          <div class="abstract-pipeline-grid">
-            <!-- Step 1: INGEST -->
-            <span class="pipeline-step-num pipe-col-1 pipe-row-1 anim-step-1">01</span>
-            <div class="pipeline-step-node pipe-col-1 pipe-row-2">
-              <div class="node-halo halo-teal anim-halo-1"></div>
-              <div class="node-core core-teal anim-core-1"></div>
-            </div>
-            <span class="pipeline-step-title pipe-col-1 pipe-row-3 anim-step-1">INGEST</span>
+        <div class="source-citation">
+          <strong>Source:</strong> Logsdon, Vollger &amp; Eichler, <em>"Long-read human genome sequencing and its applications"</em>, Nature Reviews Genetics, 21(10):597–614 (2020). DOI: 10.1038/s41576-020-0254-8
+        </div>
+      </div>
+      <aside class="notes">
+Scientific fields advance through distinct paradigm shifts. Physics moved from classical mechanics to electromagnetism to quantum.
+Similarly, genomics has evolved through three generations: 1st generation Sanger sequencing took 13 years and dealt in megabytes. 2nd generation short-read NGS pushed us into gigabytes.
+Today, 3rd generation long-read sequencing—like Oxford Nanopore and PacBio—produces 100 GB to over 1.5 Terabytes from a single run. We have 3rd generation data, but students are still stuck on 16GB laptops.
+      </aside>
+    </section>
 
-            <!-- Conduit 1: 01 ➔ 02 -->
-            <div class="pipeline-conduit pipe-col-2 pipe-row-2">
-              <div class="conduit-track">
-                <div class="conduit-pulse anim-pulse-1"></div>
-              </div>
-              <span class="conduit-arrow anim-arrow-1">›</span>
-            </div>
+    <!-- ============ SLIDE 5: Laptops Crash ============ -->
+    <section>
+      <div class="content-wrap">
+        <p class="kicker">BARRIER 01</p>
+        <h2>Laptops crash.</h2>
+        <p class="subhead">When launching standard tools (STAR, Kraken 2) on real datasets:</p>
 
-            <!-- Step 2: PLAN -->
-            <span class="pipeline-step-num pipe-col-3 pipe-row-1 anim-step-2">02</span>
-            <div class="pipeline-step-node pipe-col-3 pipe-row-2">
-              <div class="node-halo halo-teal anim-halo-2"></div>
-              <div class="node-core core-teal anim-core-2"></div>
-            </div>
-            <span class="pipeline-step-title pipe-col-3 pipe-row-3 anim-step-2">PLAN</span>
-
-            <!-- Conduit 2: 02 ➔ 03 -->
-            <div class="pipeline-conduit pipe-col-4 pipe-row-2">
-              <div class="conduit-track">
-                <div class="conduit-pulse anim-pulse-2"></div>
-              </div>
-              <span class="conduit-arrow anim-arrow-2">›</span>
-            </div>
-
-            <!-- Step 3: APPROVE -->
-            <span class="pipeline-step-num pipe-col-5 pipe-row-1 anim-step-3">03</span>
-            <div class="pipeline-step-node pipe-col-5 pipe-row-2">
-              <div class="node-halo halo-gold anim-halo-3"></div>
-              <div class="node-core core-gold anim-core-3"></div>
-            </div>
-            <span class="pipeline-step-title pipe-col-5 pipe-row-3 anim-step-3">APPROVE</span>
-
-            <!-- Conduit 3: 03 ➔ 04 -->
-            <div class="pipeline-conduit pipe-col-6 pipe-row-2">
-              <div class="conduit-track">
-                <div class="conduit-pulse anim-pulse-3"></div>
-              </div>
-              <span class="conduit-arrow anim-arrow-3">›</span>
-            </div>
-
-            <!-- Step 4: RESULTS -->
-            <span class="pipeline-step-num pipe-col-7 pipe-row-1 anim-step-4">04</span>
-            <div class="pipeline-step-node pipe-col-7 pipe-row-2">
-              <div class="node-halo halo-teal anim-halo-4"></div>
-              <div class="node-core core-teal anim-core-4"></div>
-            </div>
-            <span class="pipeline-step-title pipe-col-7 pipe-row-3 anim-step-4">RESULTS</span>
+        <div class="card-box card-box-danger">
+          <div style="font-family: var(--font-display); font-size: 1.25rem; font-weight: 700; color: #dc2626; margin-bottom: 0.4rem;">
+            Out of Memory: Killed process (Exit 137)
           </div>
+          <p style="margin: 0; font-size: 1.05rem; color: #475569;">
+            Memory demands reach 32 GB to 100 GB &bull; Screen freezes &bull; Operating system kills the job.
+          </p>
+        </div>
+
+        <p style="margin-top: 1.3rem; font-size: 1.15rem; font-weight: 600; color: #1e293b;">
+          I myself have experienced a lot of OOM errors when doing intensive work.
+        </p>
+
+        <div class="source-citation">
+          <strong>Source:</strong> Dobin et al., <em>"STAR: ultrafast universal RNA-seq aligner"</em>, Bioinformatics, 29(1):15–21 (2013). DOI: 10.1093/bioinformatics/bts635
         </div>
       </div>
       <aside class="notes">
-Galaxy-agent does exactly what a bioinformatician does: executes real analyses from start to finish.
-You ask in plain language; the agent routes the heavy computational steps straight to Galaxy.
-Four core stages: Ingest, Plan, Approve, and Results.
+Barrier number one: laptops crash.
+When you run standard tools like STAR or Kraken 2 on real sequencing data, they require 32 to 100 gigabytes of memory just to hold the index.
+On a standard 8GB or 16GB laptop, the operating system's Out-of-Memory killer terminates the process within a minute.
+I myself have experienced a lot of OOM errors firsthand when trying to do intensive work.
       </aside>
     </section>
 
-    <!-- ============ SLIDE 6: Step 1 - Creates History ============ -->
+    <!-- ============ SLIDE 6: Slow Internet ============ -->
     <section>
       <div class="content-wrap">
-        <p class="title-slide kicker" style="margin-bottom: 0.2em;">STEP 01 / 06</p>
-        <h2>Creates History</h2>
-        <p style="margin-bottom: 1.2rem; font-size: 1.15rem; color: #17181a;">
-          <strong>Agent comes in, creates a history on Galaxy (you name it).</strong>
+        <p class="kicker">BARRIER 02</p>
+        <h2>Downloading data takes all day.</h2>
+        <p class="subhead">Reference genomes and databases are 30 GB to 80 GB:</p>
+
+        <div class="big-stat big-stat-bad">4 to 6 Hours</div>
+        <p style="margin-top: 0.2rem; font-size: 1.2rem; color: #1e293b;">
+          Time spent downloading a single reference file over typical campus or home Wi-Fi.
         </p>
+
+        <ul class="clean-list" style="margin-top: 1.1rem;">
+          <li>Fills up the student's limited laptop SSD.</li>
+          <li>Fails halfway and has to restart from zero.</li>
+        </ul>
+
+        <div class="source-citation">
+          <strong>Source:</strong> Data transfer benchmarks based on Ookla Speedtest Intelligence median broadband in Pakistan / South Asia (20–40 Mbps).
+        </div>
+      </div>
+      <aside class="notes">
+Barrier number two: slow internet.
+Reference databases are 30 to 80 gigabytes. Over typical home or campus Wi-Fi, downloading one reference takes 4 to 6 hours.
+It fills your hard drive, and if the connection drops, it fails halfway through.
+A student spends an entire day just downloading files before writing a single line of research.
+      </aside>
+    </section>
+
+    <!-- ============ SLIDE 7: Supercomputers on Campus ============ -->
+    <section>
+      <div class="content-wrap">
+        <p class="kicker">BARRIER 03</p>
+        <h2>Even with supercomputers on campus...</h2>
+        <p class="subhead">We are at NUST, one of the top universities in Pakistan with a supercomputer.</p>
+
+        <div class="card-box">
+          <p style="margin: 0; font-size: 1.15rem; line-height: 1.6; color: #1e293b;">
+            Yet students and labs still face this every single day:
+          </p>
+          <ul class="clean-list" style="margin-top: 0.8rem; margin-bottom: 0;">
+            <li>Waiting days for cluster account approvals.</li>
+            <li>Writing complicated job submission scripts.</li>
+            <li>Broken environments and software installation failures.</li>
+          </ul>
+        </div>
+
+        <div class="source-citation">
+          <strong>Source:</strong> Supercomputing Research and Education Centre (ScREC), Research Centre for Modeling and Simulation (RCMS), NUST, Islamabad.
+        </div>
+      </div>
+      <aside class="notes">
+Barrier number three: cluster friction.
+Even at top institutions like NUST with supercomputers on campus, students still struggle.
+Getting cluster accounts takes days, writing cluster submission scripts is difficult, and installing conflicting biological software is a constant headache.
+Most students just give up and try to run it on their laptop.
+      </aside>
+    </section>
+
+    <!-- ============ SLIDE 8: The Question ============ -->
+    <section class="center-text">
+      <div class="content-wrap">
+        <p class="kicker">THE QUESTION</p>
+        <h2 style="font-size: clamp(2.2rem, 4.8vw, 3.4rem); line-height: 1.25; margin-bottom: 0.6em;">
+          What if your normal command just ran in the cloud?
+        </h2>
+        <p class="subhead" style="font-size: clamp(1.2rem, 2.4vw, 1.55rem); color: var(--teal); font-weight: 500;">
+          No new software. No cluster scripts. No 50 GB downloads.
+        </p>
+      </div>
+      <aside class="notes">
+So we asked a simple question:
+What if your normal terminal command just ran in the cloud?
+No new platforms to learn. No cluster scripts to write. And zero files to download.
+      </aside>
+    </section>
+
+    <!-- ============ SLIDE 9: Enter gx- ============ -->
+    <section>
+      <div class="content-wrap">
+        <p class="kicker">THE SOLUTION</p>
+        <h2>Enter <code>gx-</code>.</h2>
+        <p class="subhead">You type the exact command you already know:</p>
 
         <div class="terminal-card">
           <div class="terminal-nav">
             <span class="terminal-dot dot-red"></span>
             <span class="terminal-dot dot-yellow"></span>
             <span class="terminal-dot dot-green"></span>
-            <span class="terminal-label">galaxy-agent session</span>
-            <div style="margin-left: auto; display: flex; align-items: center; gap: 6px;">
-              <span style="width: 8px; height: 8px; background: #10b981; border-radius: 50%; display: inline-block; animation: live-pulse 2s infinite;"></span>
-              <span style="font-size: 0.7rem; color: #10b981; font-weight: 600; letter-spacing: 0.05em;">LIVE SYNC</span>
-            </div>
+            <span class="terminal-label">Your Terminal</span>
           </div>
-          <div style="font-size: 0.88rem; line-height: 1.7;">
-            <div><span style="color: var(--gold); font-weight: 700;">&gt;</span> galaxy-agent "Analyze mouse RNA-seq samples in ./raw_data"</div>
-            <div style="color: #94a3b8; margin-top: 0.3rem;">[galaxy-session] Connecting to usegalaxy.eu via MCP...</div>
-            <div style="color: #b2f5ea; margin-top: 0.2rem;">✓ Created Galaxy History: <span style="color: #ffffff; font-weight: 600;">"rnaseq-mouse-brain-2026"</span> <span style="color: #64748b;">(id: 8f9a2b8e)</span></div>
-            <div style="color: #94a3b8; margin-top: 0.2rem;">[storage] Available server quota: 248.5 GB / 250 GB</div>
+          <div style="font-size: 1rem; line-height: 1.8;">
+            <div><span style="color: var(--teal); font-weight: 700;">$</span> <span style="color: #ffffff;">hisat2 -x hg38 -1 sample_R1.fq.gz -2 sample_R2.fq.gz -S sample.sam</span></div>
+            <div style="color: #4ade80; margin-top: 0.4rem;">[gx] Running on free cloud supercomputer (64 cores, 256GB RAM)...</div>
+            <div style="color: #38bdf8;">[gx] Complete in 12 min &bull; Results ready! ✓</div>
           </div>
         </div>
 
-        <p style="margin-top: 1rem; font-size: 0.95rem; color: var(--paper-dim); font-style: italic;">
-          Every run is isolated in its own native Galaxy history, fully trackable and inspectable in the web UI at any time.
+        <p style="margin-top: 1.2rem; font-size: 1.15rem; color: #1e293b;">
+          <strong>That's it.</strong> The heavy compute runs on the cloud; your laptop stays responsive.
         </p>
       </div>
       <aside class="notes">
-Step 1: The agent comes in and creates a history on Galaxy—you name it whatever you like.
-It establishes a live connection to your Galaxy instance, verifies your storage quota, and isolates the workflow in a reproducible workspace.
+Here is gx-.
+You type your normal command. Exactly as you always have.
+gx intercepts it, sends the job to a free high-performance cloud server, and handles the execution.
+That's it. No new syntax. No web portals.
       </aside>
     </section>
 
-    <!-- ============ SLIDE 7: Step 2 - Smart Ingestion ============ -->
+    <!-- ============ SLIDE 10: Zero Downloads ============ -->
     <section>
       <div class="content-wrap">
-        <p class="title-slide kicker" style="margin-bottom: 0.2em;">STEP 02 / 06</p>
-        <h2>Smart Ingestion</h2>
-        <p style="margin-bottom: 1.2rem; font-size: 1.15rem; color: #17181a;">
-          <strong>It uploads your files from your disk, or via links intelligently.</strong>
+        <p class="kicker">FEATURE 01</p>
+        <h2>8,000+ GB already in the cloud.</h2>
+        <div class="big-stat">0 MB Downloaded</div>
+        <p class="subhead" style="margin-top: 0.4rem;">
+          Reference genomes and databases are already pre-stored on the cloud servers.
         </p>
 
-        <div style="background: #fafbfc; border: 1px solid #e2e8f0; border-radius: var(--radius); padding: 1.2rem 1.4rem;">
-          <!-- Track A: Local Upload -->
-          <div style="display: grid; grid-template-columns: 180px 1fr 100px; align-items: center; gap: 1rem; font-family: var(--font-display); font-size: 0.85rem; margin-bottom: 0.9rem;">
-            <div><span style="font-weight: 700; color: #17181a;">Local Disk</span><br><span style="font-size: 0.75rem; color: var(--paper-dim);">reads_R1.fq.gz</span></div>
-            <div style="background: #e2e8f0; border-radius: 4px; height: 18px; overflow: hidden; width: 100%;">
-              <div style="background: linear-gradient(90deg, #205e54 0%, #4fd1c5 50%, #205e54 100%); background-size: 200% 100%; width: 100%; height: 100%; border-radius: 3px; animation: stream-shimmer 2.2s linear infinite;"></div>
-            </div>
-            <div style="color: var(--teal); font-weight: 700; text-align: right;">STREAMED</div>
-          </div>
+        <div class="card-box card-box-success" style="margin-top: 1.2rem;">
+          <p style="margin: 0; font-size: 1.1rem; color: #0f766e;">
+            When you pass <code>-x hg38</code>, gx uses the reference already sitting on high-speed server storage.
+            <strong>You download zero bytes.</strong>
+          </p>
+        </div>
 
-          <!-- Track B: Server to Server -->
-          <div style="display: grid; grid-template-columns: 180px 1fr 100px; align-items: center; gap: 1rem; font-family: var(--font-display); font-size: 0.85rem; padding-top: 0.8rem; border-top: 1px dashed #cbd5e1;">
-            <div><span style="font-weight: 700; color: var(--gold);">Server-to-Server</span><br><span style="font-size: 0.75rem; color: var(--paper-dim);">ftp://sra.ebi.ac.uk/...</span></div>
-            <div style="background: #e2e8f0; border-radius: 4px; height: 18px; overflow: hidden; width: 100%;">
-              <div style="background: linear-gradient(90deg, #7a4d00 0%, #d69e2e 50%, #7a4d00 100%); background-size: 200% 100%; width: 100%; height: 100%; border-radius: 3px; animation: stream-shimmer 2.2s linear infinite;"></div>
-            </div>
-            <div style="color: var(--gold); font-weight: 700; text-align: right;">DIRECT LINK</div>
-          </div>
+        <div class="source-citation">
+          <strong>Source:</strong> Galaxy Project CVMFS Repository (<code>/cvmfs/data.galaxyproject.org</code>) hosting 8TB+ reference indices.
         </div>
       </div>
       <aside class="notes">
-Step 2: Smart Ingestion.
-Files can come straight from your local laptop disk, or pulled directly server-to-server from links, SRA, or remote repositories.
+Feature number one: zero local downloads.
+The cloud servers already host over 8,000 gigabytes of pre-indexed reference genomes and databases.
+When you specify human genome hg38, gx connects directly to the server copy.
+You download zero megabytes to your laptop.
       </aside>
     </section>
 
-    <!-- ============ SLIDE 8: Step 3 - Discovers & Plans ============ -->
+    <!-- ============ SLIDE 11: Free Supercomputer Nodes ============ -->
     <section>
       <div class="content-wrap">
-        <p class="title-slide kicker" style="margin-bottom: 0.2em;">STEP 03 / 06</p>
-        <h2>Discovers &amp; Plans</h2>
-        <p style="margin-bottom: 1.2rem; font-size: 1.15rem; color: #17181a;">
-          <strong>It asks what you are doing, discovers tools on Galaxy, and tells you the plan.</strong>
-        </p>
+        <p class="kicker">FEATURE 02</p>
+        <h2>Free supercomputer nodes.</h2>
+        <p class="subhead">Never see an Out-of-Memory crash again.</p>
 
-        <div class="terminal-card" style="position: relative;">
-          <div style="position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, transparent, #205e54, transparent); animation: scanline-glow 3s infinite ease-in-out;"></div>
-          <div class="terminal-nav">
-            <span class="terminal-dot dot-red"></span>
-            <span class="terminal-dot dot-yellow"></span>
-            <span class="terminal-dot dot-green"></span>
-            <span class="terminal-label">Planner Engine · Catalog Search</span>
-          </div>
-          <div style="font-size: 0.85rem; line-height: 1.65;">
-            <div><span style="color: var(--teal); font-weight: 600;">[tool-search]</span> Query: "quality control adapter trimming paired-end"</div>
-            <div style="color: #94a3b8;">[catalog] Searching 3000+ Galaxy tools... Found: <span style="color: #ffffff; font-weight: 600;">FastQC (v0.74)</span>, <span style="color: #ffffff; font-weight: 600;">Trimmomatic (v0.39)</span></div>
-            <div style="margin-top: 0.5rem; padding: 0.55rem 0.8rem; background: #0f172a; border-radius: 4px; border: 1px solid #1e293b;">
-              <div style="color: var(--gold); font-weight: 700; margin-bottom: 0.2rem;">Generated Execution Plan:</div>
-              <div style="color: #e2e8f0;">1. FastQC &nbsp;&nbsp;&nbsp;&nbsp;→ <span style="color: #94a3b8;">inputs: [reads_R1, reads_R2] | threads: 8 | nogroup: true</span></div>
-              <div style="color: #e2e8f0;">2. Trimmomatic → <span style="color: #94a3b8;">mode: PE | slidingwindow: 4:20 | minlen: 36</span></div>
-            </div>
-          </div>
-        </div>
-
-        <p style="margin-top: 1rem; font-size: 0.95rem; color: var(--paper-dim);">
-          You don't need to know schema definitions or Galaxy XML parameters—the agent queries documentation, selects the optimal tool, and synthesizes the exact parameter configuration.
-        </p>
-      </div>
-      <aside class="notes">
-Step 3: Discovers and plans.
-The agent queries your intent, scans the 3000+ tool catalog, and crafts a complete execution graph with typed parameters—such as running FastQC and Trimmomatic with paired-end adapter settings.
-      </aside>
-    </section>
-
-    <!-- ============ SLIDE 9: Step 4 - HITL Approval ============ -->
-    <section>
-      <div class="content-wrap">
-        <p class="title-slide kicker" style="margin-bottom: 0.2em;">STEP 04 / 06</p>
-        <h2>HITL Approval</h2>
-        <p style="margin-bottom: 1.2rem; font-size: 1.15rem; color: #17181a;">
-          <strong>You approve it, and it goes ahead and does the thing.</strong>
-        </p>
-
-        <div style="border-radius: var(--radius); padding: 1.3rem 1.5rem; border: 2px solid #b2f5ea; background: #f7faf9; animation: hitl-cycle 4s infinite ease-in-out;">
-          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.8rem;">
-            <div style="font-family: var(--font-display); font-size: 0.85rem; font-weight: 700; color: #17181a;">
-              HARD RUNTIME SAFETY GATE
-            </div>
-            <div style="font-family: var(--font-display); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--teal); background: #e6fffa; border: 1px solid #b2f5ea; padding: 3px 8px; border-radius: 3px;">
-              ✓ HUMAN CONFIRMATION REQUIRED
-            </div>
-          </div>
-
-          <div style="font-family: var(--font-display); font-size: 0.9rem; line-height: 1.6; color: #17181a; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 4px; padding: 0.9rem 1.1rem;">
-            <div>Dispatch 2 jobs to Galaxy HPC Cluster?</div>
-            <div style="color: var(--paper-dim); font-size: 0.82rem; margin-top: 0.2rem;">Remaining Storage: 150GB · Tools Chosen: FastQC, Trimmomatic · History: "rnaseq-mouse-brain-2026"</div>
-            <div style="margin-top: 0.6rem; display: flex; align-items: center; gap: 0.6rem;">
-              <span style="font-weight: 700; color: var(--teal);">&gt; Confirm and dispatch? [y/N]:</span>
-              <span style="background: var(--teal); color: #ffffff; padding: 1px 7px; border-radius: 2px; font-weight: 700;">y</span>
-              <span class="cursor"></span>
-            </div>
-          </div>
-        </div>
-      </div>
-      <aside class="notes">
-Step 4: Human-in-the-loop approval.
-You inspect the parameters, tool settings, and quota impact.
-You approve it, and only then does the agent go ahead and execute on Galaxy.
-      </aside>
-    </section>
-
-    <!-- ============ SLIDE 10: Step 5 - Flexible Results ============ -->
-    <section>
-      <div class="content-wrap">
-        <p class="title-slide kicker" style="margin-bottom: 0.2em;">STEP 05 / 06</p>
-        <h2>Flexible Results</h2>
-        <p style="margin-bottom: 1.2rem; font-size: 1.15rem; color: #17181a;">
-          <strong>Results come back—you can click the link to see them ON GALAXY SERVER, or ask it to download them locally and inspect via local tools.</strong>
-        </p>
-
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; margin-top: 1.1rem;">
-          <!-- Option A: View on Galaxy Server -->
-          <div style="background: #ffffff; border: 2px solid var(--teal); border-radius: var(--radius); padding: 1.2rem 1.3rem; animation: pulse-card-a 4s infinite ease-in-out;">
-            <div style="font-family: var(--font-display); font-size: 0.75rem; font-weight: 700; color: var(--teal); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.5rem;">
-              OPTION A · CLOUD INSPECTION
-            </div>
-            <h4 style="margin: 0 0 0.5rem 0;">View on Galaxy Server</h4>
-            <p style="font-size: 0.9rem; color: var(--paper-dim); margin-bottom: 0.8rem;">
-              Click the generated link to inspect interactive HTML reports, BAM charts, and visual dashboards directly on the Galaxy web interface.
-            </p>
-            <div style="font-family: var(--font-display); font-size: 0.8rem; background: #e6fffa; color: #205e54; padding: 6px 10px; border-radius: 3px; border: 1px solid #b2f5ea; word-break: break-all;">
-              🔗 usegalaxy.eu/datasets/f8a21/display
-            </div>
-          </div>
-
-          <!-- Option B: Download Locally -->
-          <div style="background: #ffffff; border: 2px solid var(--gold); border-radius: var(--radius); padding: 1.2rem 1.3rem; animation: pulse-card-b 4s infinite ease-in-out;">
-            <div style="font-family: var(--font-display); font-size: 0.75rem; font-weight: 700; color: var(--gold); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.5rem;">
-              OPTION B · LOCAL SYNC
-            </div>
-            <h4 style="margin: 0 0 0.5rem 0;">Download Locally</h4>
-            <p style="font-size: 0.9rem; color: var(--paper-dim); margin-bottom: 0.8rem;">
-              Stream finished datasets straight to your local directory to inspect via terminal tools like <code>head</code>, <code>grep</code>, or local R/Python scripts.
-            </p>
-            <div style="font-family: var(--font-display); font-size: 0.8rem; background: #fffaf0; color: var(--gold); padding: 6px 10px; border-radius: 3px; border: 1px solid #feebc8;">
-              ⬇ ./results/fastqc_report.html
-            </div>
-          </div>
-        </div>
-      </div>
-      <aside class="notes">
-Step 5: Flexible Results.
-When results return, you have complete freedom: click the link to see them immediately on Galaxy server, or ask the agent to download them locally to inspect with local command-line tools.
-      </aside>
-    </section>
-
-    <!-- ============ SLIDE 11: Step 6 - Dedicated Modes ============ -->
-    <section>
-      <div class="content-wrap">
-        <p class="title-slide kicker" style="margin-bottom: 0.2em;">STEP 06 / 06</p>
-        <h2>Dedicated Modes</h2>
-        <p style="margin-bottom: 1.2rem; font-size: 1.15rem; color: #17181a;">
-          <strong>You have access to local tools and bash commands via dedicated bash mode (<code>$</code>) versus normal chat mode (<code>&gt;</code>).</strong>
-        </p>
-
-        <div class="terminal-card">
-          <div class="terminal-nav">
-            <span class="terminal-dot dot-red"></span>
-            <span class="terminal-dot dot-yellow"></span>
-            <span class="terminal-dot dot-green"></span>
-            <span class="terminal-label">Dual-Mode Command Shell</span>
-            <div style="margin-left: auto; display: flex; gap: 6px;">
-              <span style="font-size: 0.72rem; padding: 2px 7px; border-radius: 3px; background: #1e293b; color: #38bdf8; font-family: var(--font-display); font-weight: 600;">&gt; CHAT</span>
-              <span style="font-size: 0.72rem; padding: 2px 7px; border-radius: 3px; background: #1e293b; color: #f59e0b; font-family: var(--font-display); font-weight: 600;">$ BASH</span>
-            </div>
-          </div>
-          <div style="font-size: 0.88rem; line-height: 1.8;">
-            <!-- Chat Mode -->
-            <div>
-              <span style="color: #38bdf8; font-weight: 700;">&gt; (chat)</span>
-              <span style="color: #ffffff;"> "Explain why the per-base sequence quality dropped at position 45"</span>
-            </div>
-            <div style="color: #94a3b8; font-size: 0.82rem; margin-left: 1.2rem; margin-bottom: 0.6rem;">
-              AI Agent: Quality drops near cycle 45 due to optical decay. Trimmomatic SLIDINGWINDOW:4:20 recommended.
-            </div>
-
-            <!-- Bash Mode -->
-            <div style="border-top: 1px dashed #334155; padding-top: 0.6rem;">
-              <span style="color: #f59e0b; font-weight: 700;">$ (bash)</span>
-              <span style="color: #ffffff;"> head -n 25 fastqc_data.txt | grep "%GC"</span>
-            </div>
-            <div style="color: #4ade80; font-size: 0.82rem; margin-left: 1.2rem;">
-              %GC 48
-            </div>
-          </div>
-        </div>
-
-        <p style="margin-top: 1rem; font-size: 0.95rem; color: var(--paper-dim);">
-          Seamlessly switch between the AI agent and your CLI.
-        </p>
-      </div>
-      <aside class="notes">
-Step 6: Dedicated Modes.
-You have access to local tools and bash commands all the way through a dedicated bash mode ($) versus normal chat mode (>).
-Seamlessly switch between the AI agent and your CLI.
-      </aside>
-    </section>
-
-    <!-- ============ SLIDE 12: The Competition ============ -->
-    <section>
-      <div class="content-wrap">
-        <h2>galaxy-agent vs Galaxy Loom</h2>
-        <p style="margin-bottom: 0.8em; font-size: 1.02rem; color: var(--paper-dim);">
-          Galaxy Loom was the first major project to adopt galaxy-mcp, we will be the second.<br>
-          The goal is to be better than the competition or be acquired/merged with them.
-        </p>
-        <ul style="font-size: clamp(0.88rem, 1.6vw, 1.02rem); line-height: 1.48;">
-          <li style="margin-bottom: 0.5em;"><strong>Zero-Setup vs. Node Stack:</strong> Loom requires Node &ge;22, npm, and manual config. Galaxy-agent requires none of that. We aim to provide a plug-and-play experience, something that just works out of the box.</li>
-          <li style="margin-bottom: 0.5em;"><strong>Hard Runtime Gate:</strong> Loom's own documentation notes approvals are soft model guidance. Galaxy-agent works on a strict human-in-the-loop approach. Unapproved jobs do not run by design.</li>
-          <li style="margin-bottom: 0.5em;"><strong>Quota Management:</strong> Loom has no storage management. Galaxy-agent actively monitors Galaxy's 250GB quota so your pipelines don't crash from full disks.</li>
-          <li style="margin-bottom: 0.5em;"><strong>Optimized vs. Naive MCP:</strong> Loom relies on a naive MCP approach that overloads model context. Galaxy-agent delivers <strong>16–85% token savings</strong>, slashing API costs, speeding up queries, and eliminating prompt bloat.</li>
+        <ul class="clean-list" style="margin-top: 1.4rem;">
+          <li>Jobs run on servers with <strong>32 to 64 dedicated CPU cores</strong>.</li>
+          <li>Backed by <strong>128 GB to 512 GB of RAM</strong> and datacenter GPUs.</li>
+          <li>Finishes in <strong>15 minutes</strong> instead of 6 hours of laptop thermal throttling.</li>
         </ul>
+
+        <div class="source-citation">
+          <strong>Source:</strong> Galaxy Public Server Infrastructure (usegalaxy.org / usegalaxy.eu / TACC / de.NBI Cloud partitions).
+        </div>
       </div>
       <aside class="notes">
-When looking at the competitive landscape:
-Galaxy Loom was the first major project to adopt galaxy-mcp, and we will be the second. Our goal is simple: be better than the competition, or be acquired and merged with them.
-Here are the core differences:
-1. Loom requires Node 22, npm, and manual config—galaxy-agent requires none of that and works out of the box.
-2. Loom admits in its own pitch that approvals are soft prompt guidance—galaxy-agent enforces a hard runtime gate where unapproved jobs do not run by design.
-3. Loom has no storage management, while galaxy-agent actively monitors Galaxy's 250GB quota to keep your runs from crashing.
-4. On token efficiency: Loom uses the naive static MCP approach, loading massive tool catalogs into the prompt. Galaxy-agent uses lazy schema discovery and sandboxed code execution to achieve 16% to 85% token savings, preserving prompt caches and drastically reducing API costs.
+Feature number two: free supercomputer nodes.
+Your job runs on dedicated cluster servers with 32 to 64 CPU cores, up to 512GB of RAM, and datacenter GPUs.
+It finishes in 15 minutes instead of taking 6 hours on an overheating laptop.
+And it never runs out of memory.
       </aside>
     </section>
 
-    <!-- ============ SLIDE 7: The Agentic Boom ============ -->
+    <!-- ============ SLIDE 12: Results Wherever You Want Them ============ -->
     <section>
       <div class="content-wrap">
-        <h2>The Agentic Boom</h2>
-        <p style="margin-bottom: 1.2rem; font-size: 1.05rem;">
-          With the boom in AI, agentic tool usage has gone through the roof:
-        </p>
-        
-        <div style="display: flex; flex-direction: column; gap: 0.8rem; margin: 1.3rem 0 1.1rem 0; background: #fafbfc; border: 1px solid #e2e8f0; border-radius: var(--radius); padding: 1.2rem 1.3rem;">
-          <!-- 2023 -->
-          <div style="display: grid; grid-template-columns: 240px 1fr 50px; align-items: center; gap: 1.2rem; font-family: var(--font-display); font-size: clamp(0.85rem, 1.5vw, 0.98rem);">
-            <div><strong style="color: #17181a;">2023</strong> &nbsp;<span style="color: var(--paper-dim);">GenAI at work</span></div>
-            <div style="background: #eef2f6; border-radius: 4px; height: 22px; width: 100%; overflow: hidden; border: 1px solid #e2e8f0;">
-              <div style="background: #94a3b8; width: 33%; height: 100%; border-radius: 2px;"></div>
-            </div>
-            <div style="font-weight: 600; color: #17181a; text-align: right;">33%</div>
-          </div>
+        <p class="kicker">FLEXIBLE ACCESS</p>
+        <h2>Results wherever you want them!</h2>
+        <p class="subhead">You decide where your data lives based on what you actually need:</p>
 
-          <!-- 2024 -->
-          <div style="display: grid; grid-template-columns: 240px 1fr 50px; align-items: center; gap: 1.2rem; font-family: var(--font-display); font-size: clamp(0.85rem, 1.5vw, 0.98rem);">
-            <div><strong style="color: #17181a;">2024</strong> &nbsp;<span style="color: var(--paper-dim);">GenAI at work</span></div>
-            <div style="background: #eef2f6; border-radius: 4px; height: 22px; width: 100%; overflow: hidden; border: 1px solid #e2e8f0;">
-              <div style="background: #94a3b8; width: 65%; height: 100%; border-radius: 2px;"></div>
-            </div>
-            <div style="font-weight: 600; color: #17181a; text-align: right;">65%</div>
-          </div>
-
-          <!-- 2025 -->
-          <div style="display: grid; grid-template-columns: 240px 1fr 50px; align-items: center; gap: 1.2rem; font-family: var(--font-display); font-size: clamp(0.85rem, 1.5vw, 0.98rem); padding-top: 0.35rem; border-top: 1px dashed #cbd5e1;">
-            <div><strong style="color: var(--teal);">2025</strong> &nbsp;<span style="color: #17181a; font-weight: 600;">AI agents adopted</span></div>
-            <div style="background: #e6fffa; border-radius: 4px; height: 22px; width: 100%; overflow: hidden; border: 1px solid #b2f5ea;">
-              <div style="background: #2d8274; width: 79%; height: 100%; border-radius: 2px;"></div>
-            </div>
-            <div style="font-weight: 700; color: var(--teal); text-align: right;">79%</div>
-          </div>
-
-          <!-- 2026 -->
-          <div style="display: grid; grid-template-columns: 240px 1fr 50px; align-items: center; gap: 1.2rem; font-family: var(--font-display); font-size: clamp(0.85rem, 1.5vw, 0.98rem);">
-            <div><strong style="color: var(--teal);">2026</strong> &nbsp;<span style="color: #17181a; font-weight: 600;">Agent budgets surge</span></div>
-            <div style="background: #e6fffa; border-radius: 4px; height: 22px; width: 100%; overflow: hidden; border: 1px solid #b2f5ea;">
-              <div style="background: var(--teal); width: 88%; height: 100%; border-radius: 2px;"></div>
-            </div>
-            <div style="font-weight: 700; color: var(--teal); text-align: right;">88%</div>
-          </div>
-        </div>
-
-        <div style="margin-top: 1.1rem; font-size: 0.72rem; color: #55524c; line-height: 1.45;">
-          <span style="font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; font-family: var(--font-display); color: var(--paper-dim);">Sources:</span><br>
-          • <strong>Aug 2023 — McKinsey &amp; Company:</strong> <a href="https://www.mckinsey.com/capabilities/quantumblack/our-insights/the-state-of-ai-in-2023-generative-ais-breakout-year" target="_blank" rel="noopener noreferrer">The State of AI in 2023: Generative AI's Breakout Year (33% Regular Adoption)</a><br>
-          • <strong>May 2024 — McKinsey &amp; Company:</strong> <a href="https://www.mckinsey.com/capabilities/quantumblack/our-insights/the-state-of-ai-in-early-2024-gen-ai-adoption-spikes-and-starts-to-generate-value" target="_blank" rel="noopener noreferrer">The State of AI in Early 2024: Gen AI Adoption Spikes to 65%</a><br>
-          • <strong>2025/2026 — PwC AI Agent Survey:</strong> <a href="https://www.pwc.com/us/en/tech-effect/ai-analytics/ai-agent-survey.html" target="_blank" rel="noopener noreferrer">PwC’s 2025 AI Agent Survey: 79% Active Enterprise Adoption &amp; 88% Budget Expansion</a>
-        </div>
-      </div>
-      <aside class="notes">
-With the boom in AI, agentic tool usage has gone through the roof:
-2023  GenAI at work        33% (McKinsey: 1 in 3 organizations regular GenAI users)
-2024  GenAI at work        65% (McKinsey: adoption nearly doubled year-over-year)
-2025  AI agents adopted    79% (PwC: 4 in 5 enterprise leaders deploying autonomous agents)
-2026  Agent budgets surge  88% (PwC: 88% expanding capital allocation specifically for agentic AI)
-Academic corroboration: Bick, Blandin & Deming (NBER WP 32966) showed workplace GenAI adoption outpaced both the personal computer and the internet.
-      </aside>
-    </section>
-
-    <!-- ============ SLIDE 8: The Solution & Core Features ============ -->
-    <section class="title-slide">
-      <h1>Agentic Bioinformatics<br>Done <span style="text-decoration: line-through; color: var(--paper-dim); font-weight: 500;">Right</span> <span style="color: var(--teal); font-weight: 700;">Better</span></h1>
-      
-      <div class="feature-grid">
-        <div class="feature-card">
-          <div class="feature-badge">✓ ZERO SETUP</div>
-          <div class="feature-title">Zero MCP JSON Configuration</div>
-        </div>
-        <div class="feature-card">
-          <div class="feature-badge">✓ FULL CATALOG</div>
-          <div class="feature-title">Unlock 3000+ Galaxy Tools</div>
-        </div>
-        <div class="feature-card">
-          <div class="feature-badge">✓ SAFETY GATE</div>
-          <div class="feature-title">Human-in-the-Loop Always</div>
-        </div>
-      </div>
-
-      <p style="margin-top: 1.2rem; font-size: clamp(1.1rem, 2.2vw, 1.35rem); color: var(--paper-dim); font-family: var(--font-display);">
-        Offload the heavy work to galaxy, focus on the science.
-      </p>
-
-      <aside class="notes">
-To wrap up:
-Galaxy-agent requires zero MCP JSON configuration, unlocks 3000+ Galaxy tools on demand with instant speed, and gives researchers bulletproof human-in-the-loop safety before running costly cluster jobs.
-Offload the heavy work to Galaxy, and focus on the science.
-      </aside>
-    </section>
-
-    <!-- ============ SLIDE 9: In Short ============ -->
-    <section>
-      <div class="content-wrap">
-        <h2>In Short</h2>
-        
-        <ul style="font-size: clamp(0.95rem, 1.8vw, 1.15rem); line-height: 1.55;">
-          <li><strong>Galaxy-MCP</strong> publicly launched in 2026.</li>
-          <li>We decided to build on top of it because of the <strong>agentic boom</strong>.</li>
-          <li><strong>Galaxy-Loom</strong> is the only other major project.</li>
-          <li>Galaxy-Loom is still in <strong>beta</strong> as of writing this.</li>
-          <li>The gates are open for anyone to come and try.</li>
-          <li><strong style="color: var(--teal);">Challenges we are solving:</strong>
-            <ul style="margin-top: 0.45rem; font-size: 0.94em; line-height: 1.5;">
-              <li>Local laptops have limited compute, servers have better compute.</li>
-              <li>Local laptops don't have already cached references, Galaxy has more than 8TB of files ready to use.</li>
-              <li>There are over 3000+ tools, you don't know how to use them. Learn as you go, read documentation + use AI to get the best of both worlds.</li>
-            </ul>
+        <ul class="clean-list" style="margin-top: 1.4rem;">
+          <li>
+            <strong>Inspect on the cloud server:</strong> View interactive reports, check alignments, and browse summaries remotely without downloading tens of gigabytes to your laptop.
+          </li>
+          <li>
+            <strong>Download locally when needed:</strong> Pull down only the final clean file (like your VCF or summary tables) directly to your laptop directory for downstream scripts.
           </li>
         </ul>
       </div>
       <aside class="notes">
-In Short:
-- Galaxy-MCP publicly launched in 2026.
-- We decided to build on top of it because of the agentic boom.
-- Galaxy-Loom is the only other major project.
-- Galaxy-Loom is still in beta as of writing this.
-- The gates are open for anyone to come and try.
-- Challenges we are solving:
-  - Local laptops have limited compute, servers have better compute.
-  - Local laptops don't have already cached references, Galaxy has more than 8TB of files ready to use.
-  - There are over 3000+ tools, you don't know how to use them. Learn as you go, read documentation + use AI to get the best of both worlds.
+When the job finishes, you don't have to clog your hard drive.
+You have complete flexibility: inspect your results directly on the cloud server without downloading anything, or if you actually need the raw file locally, download it straight to your laptop folder.
       </aside>
     </section>
 
-    <!-- ============ SLIDE 10: Thank You ============ -->
-    <section class="title-slide center-aligned">
-      <h1>Thank You<span class="cursor"></span></h1>
+    <!-- ============ SLIDE 13: How It Will Work ============ -->
+    <section>
+      <div class="content-wrap">
+        <p class="kicker">HOW IT WILL WORK</p>
+        <h2>How it will work</h2>
+        <p class="subhead">Just prefix whatever tool you want to run with <code>gx-</code> and it gets dispatched to the cloud:</p>
+
+        <div class="terminal-card">
+          <div class="terminal-nav">
+            <span class="terminal-dot dot-red"></span>
+            <span class="terminal-dot dot-yellow"></span>
+            <span class="terminal-dot dot-green"></span>
+            <span class="terminal-label">Prefix with gx-</span>
+          </div>
+          <div style="font-size: 0.92rem; line-height: 1.9;">
+            <div><span style="color: var(--teal); font-weight: 700;">$</span> <span style="color: #ffffff;">gx-bowtie2 -x hg38 -1 sample_R1.fq.gz -2 sample_R2.fq.gz -S sample.sam</span></div>
+            <div><span style="color: var(--teal); font-weight: 700;">$</span> <span style="color: #ffffff;">gx-deepvariant --reads sample.bam --ref hg38 --output sample.vcf</span></div>
+            <div><span style="color: var(--teal); font-weight: 700;">$</span> <span style="color: #ffffff;">gx-kraken2 --db Standard --paired read_1.fq.gz read_2.fq.gz</span></div>
+          </div>
+        </div>
+
+        <ul class="clean-list" style="margin-top: 1rem;">
+          <li><strong>No new syntax to learn:</strong> Use the exact same parameters you already know.</li>
+          <li><strong>Zero cluster scripting:</strong> <code>gx-</code> handles shipping the job and the remote environment.</li>
+        </ul>
+      </div>
       <aside class="notes">
-Thank you very much for your time! We're happy to answer any questions.
+The user experience is dead simple: you take whatever tool you want to run and prefix it with gx-.
+If you want to run Bowtie2, you run gx-bowtie2. If you want DeepVariant, you run gx-deepvariant.
+You use your normal tool flags, and gx- handles the execution on the cloud.
+      </aside>
+    </section>
+
+    <!-- ============ SLIDE 14: Leveling the Playing Field ============ -->
+    <section>
+      <div class="content-wrap">
+        <p class="kicker">THE IMPACT</p>
+        <h2>Leveling the playing field.</h2>
+        <p class="subhead">Making high-throughput bioinformatics accessible to anyone:</p>
+
+        <ul class="clean-list" style="margin-top: 1.5rem;">
+          <li><strong>Any $300 laptop gets the power of a cloud supercomputer.</strong></li>
+          <li><strong>Zero manual config: Designed to work out of the box.</strong></li>
+        </ul>
+
+        <p style="margin-top: 2rem; font-size: 1.15rem; color: var(--paper-dim); font-style: italic;">
+          Scientific discovery should be limited by your curiosity — not by the price tag of your laptop.
+        </p>
+      </div>
+      <aside class="notes">
+This levels the playing field for research.
+Any student on an everyday $300 laptop gets the computational power of a cloud supercomputer, with zero manual configuration required.
+Scientific discovery should be limited by your curiosity, not by the price tag of your laptop.
+      </aside>
+    </section>
+
+    <!-- ============ SLIDE 15: In Short ============ -->
+    <section class="center-text">
+      <div class="content-wrap">
+        <p class="kicker">IN SHORT</p>
+        <h2 style="margin-bottom: 1.4rem;">With <code>gx-</code>:</h2>
+
+        <div style="max-width: 680px; margin: 0 auto; text-align: left;">
+          <ul class="clean-list" style="font-size: clamp(1.15rem, 2.3vw, 1.45rem);">
+            <li><strong>Compute that doesn't crash on standard laptops.</strong></li>
+            <li><strong>Pre-stored cloud databases with zero local downloads.</strong></li>
+            <li><strong>Your normal tools, executed on remote high-memory servers.</strong></li>
+          </ul>
+        </div>
+      </div>
+      <aside class="notes">
+In short: with gx-, you get reliable compute that doesn't crash your laptop, instant access to pre-stored cloud reference databases, and your familiar command-line tools running on high-memory servers.
+      </aside>
+    </section>
+
+    <!-- ============ SLIDE 16: Final Slide (Thank You) ============ -->
+    <section class="center-text">
+      <div class="content-wrap">
+        <h1 style="font-size: clamp(3.8rem, 8vw, 6rem); margin-bottom: 0.1em; letter-spacing: -0.04em;">
+          gx-<span class="cursor"></span>
+        </h1>
+        <p style="color: #94a3b8; font-size: clamp(1.3rem, 2.6vw, 1.8rem); margin-top: 1.8rem; font-weight: 500;">
+          Thank You
+        </p>
+      </div>
+      <aside class="notes">
+Thank you. I am happy to answer any questions.
       </aside>
     </section>
 
@@ -1236,7 +638,6 @@ Thank you very much for your time! We're happy to answer any questions.
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/reveal.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/plugin/notes/notes.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/plugin/highlight/highlight.min.js"></script>
 <script>
   const deck = new Reveal({
     hash: true,
@@ -1245,7 +646,7 @@ Thank you very much for your time! We're happy to answer any questions.
     progress: true,
     controls: false,
     transition: 'fade',
-    plugins: [ RevealNotes, RevealHighlight ]
+    plugins: [ RevealNotes ]
   });
 
   deck.initialize();
